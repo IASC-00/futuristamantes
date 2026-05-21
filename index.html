@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Futuristamantes — Cinematic urban futures studio. We create visions for cities, institutions, movements, and neighborhoods." />
+  <meta property="og:title" content="Futuristamantes" />
+  <meta property="og:description" content="We remember the future." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <title>FUTURISTAMANTES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ─── Navigation ─── -->
+  <nav id="nav" role="navigation" aria-label="Primary navigation">
+    <a href="#landing" class="nav-logo">Futuristamantes</a>
+    <ul class="nav-links">
+      <li><a href="#manifesto">Manifesto</a></li>
+      <li><a href="#field-studies">Field Studies</a></li>
+      <li><a href="#process">The Process</a></li>
+      <li><a href="#apply">Apply</a></li>
+      <li><a href="#archive">Archive</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── Section 1: Landing ───
+       The landing-bg div carries the still hero image as a fallback.
+       When a real video lands at images/hero.mp4 / hero.webm, the <video>
+       element below auto-plays on top of it and the image becomes the poster.
+       Removing the <video> block reverts to the image-only treatment. -->
+  <section id="landing" aria-label="Landing">
+    <video
+      class="landing-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="images/hero.png"
+      aria-hidden="true"
+    >
+      <source src="images/hero.webm" type="video/webm" />
+      <source src="images/hero.mp4" type="video/mp4" />
+    </video>
+    <div class="landing-bg" aria-hidden="true"></div>
+    <div class="landing-vignette" aria-hidden="true"></div>
+
+    <div class="landing-content">
+      <h1 class="landing-wordmark">Futuristamantes</h1>
+      <p class="landing-quote">&ldquo;We remember the future.&rdquo;</p>
+      <p class="landing-tagline">Space is the place.</p>
+      <a href="#manifesto" class="btn-enter" id="enter-btn">Enter Transmission</a>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ─── Section 2: Manifesto ─── -->
+  <section id="manifesto" aria-label="Manifesto">
+    <div class="manifesto-inner">
+      <span class="section-label">— 01 / Manifesto</span>
+
+      <div aria-label="Manifesto text">
+        <span class="manifesto-line">Cities are dying from lack of imagination.</span>
+        <span class="manifesto-line">The future is usually obvious long before it arrives.</span>
+        <span class="manifesto-line">Most people simply lack the ability to see it.</span>
+        <span class="manifesto-line small-gap em">We create cinematic future states</span>
+        <span class="manifesto-line em">for cities, institutions, movements,</span>
+        <span class="manifesto-line em">neighborhoods, brands, and ideas.</span>
+        <span class="manifesto-line small-gap">Not advertisements. Visions.</span>
+        <span class="manifesto-line em">We do not predict the future.</span>
+        <span class="manifesto-line em">We provoke it.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Section 3: Field Studies ─── -->
+  <section id="field-studies" aria-label="Field Studies">
+    <div class="section-header reveal-fade">
+      <span class="section-label">— 02 / Field Studies</span>
+      <h2 class="section-title">Field Studies</h2>
+      <p class="section-note">Selected transmissions. Not a portfolio. Documented futures that already exist somewhere.</p>
+    </div>
+
+    <div class="field-studies-grid">
+
+      <article class="field-card">
+        <span class="field-card-number">FS — 001 / Philadelphia</span>
+        <h3 class="field-card-title">Old City 2035</h3>
+        <p class="field-card-body">
+          Walkable corridors reclaim the avenue. A jazz brasserie opens in a former CVS. Reactivated public space makes the street legible again — not as commerce, but as civic room. The car was the problem. We removed it on paper first.
+        </p>
+        <a href="#" class="field-card-link">View Field Study &rarr;</a>
+      </article>
+
+      <article class="field-card">
+        <span class="field-card-number">FS — 002 / Philadelphia</span>
+        <h3 class="field-card-title">North Broad: The Music District</h3>
+        <p class="field-card-body">
+          The avenue always had the bones. Transit as spine. Jazz festival as anchor. Nightlife as economic argument. Uptown reborn not through gentrification — but through a story told so clearly the market followed.
+        </p>
+        <a href="#" class="field-card-link">View Field Study &rarr;</a>
+      </article>
+
+      <article class="field-card">
+        <span class="field-card-number">FS — 003 / Regional</span>
+        <h3 class="field-card-title">Food City</h3>
+        <p class="field-card-body">
+          Controlled-environment agriculture integrated into healthcare infrastructure. Produce prescriptions written on clinical pads. Neighborhood food systems built where grocery stores refused to go. The hospital as food hub. The farm as public health intervention.
+        </p>
+        <a href="#" class="field-card-link">View Field Study &rarr;</a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ─── Section 4: The Process ─── -->
+  <section id="process" aria-label="The Process">
+    <div class="section-header reveal-fade">
+      <span class="section-label">— 03 / The Process</span>
+      <h2 class="section-title">How a Transmission Is Built</h2>
+    </div>
+
+    <div class="process-grid">
+
+      <div class="process-step">
+        <span class="process-number">01</span>
+        <h3 class="process-name">Signal</h3>
+        <div class="process-separator"></div>
+        <p class="process-desc">
+          We listen for what is already trying to happen. Every city has a future pressing against the present. We locate it.
+        </p>
+      </div>
+
+      <div class="process-step">
+        <span class="process-number">02</span>
+        <h3 class="process-name">Simulation</h3>
+        <div class="process-separator"></div>
+        <p class="process-desc">
+          We render the future in full. Cinematic, spatial, economic, cultural — a vision complete enough to be believed, argued over, and funded.
+        </p>
+      </div>
+
+      <div class="process-step">
+        <span class="process-number">03</span>
+        <h3 class="process-name">Alignment</h3>
+        <div class="process-separator"></div>
+        <p class="process-desc">
+          We bring the vision to the people who can move it — elected officials, anchors, investors, communities, institutions. We translate. We convene.
+        </p>
+      </div>
+
+      <div class="process-step">
+        <span class="process-number">04</span>
+        <h3 class="process-name">Execution</h3>
+        <div class="process-separator"></div>
+        <p class="process-desc">
+          Some futures only need to be seen clearly. Others need to be built. We remain through both — until the vision is no longer speculative.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── Section 5: Apply for Transmission ─── -->
+  <section id="apply" aria-label="Apply for Transmission">
+    <div class="apply-inner">
+      <div class="apply-header reveal-fade">
+        <span class="section-label">— 04 / Apply</span>
+        <h2 class="apply-title">Apply for<br />Transmission</h2>
+        <p class="apply-subhead">Not all applications are accepted.</p>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <form
+        id="transmission-form"
+        class="transmission-form"
+        action="https://formspree.io/f/placeholder"
+        method="POST"
+        novalidate
+      >
+
+        <div class="form-group">
+          <label class="form-label" for="future">What future are you trying to create?</label>
+          <textarea
+            id="future"
+            name="future"
+            class="form-textarea"
+            rows="3"
+            placeholder="Describe the world you are building toward."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="problem">What problem are you trying to solve?</label>
+          <textarea
+            id="problem"
+            name="problem"
+            class="form-textarea"
+            rows="3"
+            placeholder="Name it plainly."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="matters">Why does this matter?</label>
+          <textarea
+            id="matters"
+            name="matters"
+            class="form-textarea"
+            rows="2"
+            placeholder="To whom. And why now."
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="why-now">Why now?</label>
+          <textarea
+            id="why-now"
+            name="why_now"
+            class="form-textarea"
+            rows="2"
+            placeholder="What has changed, or is changing."
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="stakes">What happens if nothing changes?</label>
+          <textarea
+            id="stakes"
+            name="stakes"
+            class="form-textarea"
+            rows="2"
+            placeholder="State the consequence plainly."
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="budget">Budget range</label>
+          <select id="budget" name="budget" class="form-select" required>
+            <option value="" disabled selected>Select a range</option>
+            <option value="under-10k">Under $10K</option>
+            <option value="10k-50k">$10K &ndash; $50K</option>
+            <option value="50k-150k">$50K &ndash; $150K</option>
+            <option value="150k+">$150K+</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <span class="form-label">You are seeking</span>
+          <div class="checkbox-group" role="group" aria-label="Services sought">
+            <label class="checkbox-item">
+              <input type="checkbox" name="seeking[]" value="vision-only" />
+              <span class="checkbox-label">Vision only</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="seeking[]" value="strategy" />
+              <span class="checkbox-label">Strategy</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="seeking[]" value="implementation" />
+              <span class="checkbox-label">Implementation</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="seeking[]" value="movement-building" />
+              <span class="checkbox-label">Movement building</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="seeking[]" value="civic-activation" />
+              <span class="checkbox-label">Civic activation</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="seeking[]" value="institutional-alignment" />
+              <span class="checkbox-label">Institutional alignment</span>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-transmit">Transmit</button>
+
+      </form>
+
+      <div id="form-success" class="form-success" role="status" aria-live="polite">
+        Transmission received. &mdash; We will be in contact.
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── Section 6: The Archive ─── -->
+  <section id="archive" aria-label="The Archive">
+    <div class="section-header reveal-fade">
+      <span class="section-label">— 05 / The Archive</span>
+      <h2 class="section-title">The Archive</h2>
+      <p class="section-note">Every transmission draws from a lineage. These are ours.</p>
+    </div>
+
+    <div class="archive-grid">
+
+      <div class="archive-card">
+        <span class="archive-name">Sun Ra</span>
+        <span class="archive-desc">Space is the place. Cosmic optimism as radical act.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Jane Jacobs</span>
+        <span class="archive-desc">The street as organism. Complexity over order.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Buckminster Fuller</span>
+        <span class="archive-desc">Design science as response to scarcity. Do more with less.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Graffiti</span>
+        <span class="archive-desc">Unauthorized futures written on public surfaces.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Jazz</span>
+        <span class="archive-desc">Improvisation as methodology. Tension, release, return.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Urban Diagrams</span>
+        <span class="archive-desc">The map that shows what a city could become.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Transit Maps</span>
+        <span class="archive-desc">Abstracted territory. Desire lines made legible.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Food Systems</span>
+        <span class="archive-desc">Infrastructure as politics. Who eats, and where.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Architecture</span>
+        <span class="archive-desc">The discipline that argues with time using stone and light.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Detroit</span>
+        <span class="archive-desc">Collapse as site of invention. The city that refuses to end.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Blade Runner</span>
+        <span class="archive-desc">Urban density as texture. The rain-slicked street at 2AM.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Mural Arts</span>
+        <span class="archive-desc">The wall as civic declaration. Beauty as policy argument.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Tokyo</span>
+        <span class="archive-desc">Layered time. Old and future coexisting without apology.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Old Philly</span>
+        <span class="archive-desc">The bones are good. What the city was is what it can be again.</span>
+      </div>
+
+      <div class="archive-card">
+        <span class="archive-name">Future Rail</span>
+        <span class="archive-desc">Transit as sovereignty. Move freely or don&rsquo;t move at all.</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── Footer ─── -->
+  <footer>
+    <span class="footer-logo">Futuristamantes &mdash; futuristamantes.com</span>
+    <span class="footer-note">Transmitting from the present.</span>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

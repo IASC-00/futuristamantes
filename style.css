@@ -1,0 +1,925 @@
+/* FUTURISTAMANTES — Cinematic Urban Futures Studio */
+/* Typography */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+/* ─── Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --black:     #0A0A0A;
+  --charcoal:  #1A1A1A;
+  --silver:    #C0C0C0;
+  --off-white: #F0F0EE;
+  --dim:       #666666;
+  --mono:      'Space Mono', monospace;
+  --serif:     'EB Garamond', Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background: var(--black);
+  color: var(--off-white);
+  font-family: var(--serif);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── Film Grain Overlay ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  animation: grain 0.5s steps(2) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10%       { transform: translate(-2%, -2%); }
+  20%       { transform: translate(2%, 2%); }
+  30%       { transform: translate(-1%, 1%); }
+  40%       { transform: translate(1%, -1%); }
+  50%       { transform: translate(-2%, 1%); }
+  60%       { transform: translate(2%, -2%); }
+  70%       { transform: translate(-1%, -1%); }
+  80%       { transform: translate(1%, 2%); }
+  90%       { transform: translate(-2%, 2%); }
+}
+
+/* ─── Scanline effect ─── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+}
+
+/* ─── Navigation ─── */
+#nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 3rem;
+  background: rgba(10, 10, 10, 0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(192, 192, 192, 0.08);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+#nav.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: var(--silver);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--dim);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--off-white);
+}
+
+/* ─── Section shared ─── */
+section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Section 1 — Landing ─── */
+#landing {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--black);
+  position: relative;
+}
+
+/* Cinematic Firefly hero — Liberty Bell Plaza at golden hour, 2050.
+   Slow Ken Burns drift keeps the still image alive without distracting.
+   When images/hero.mp4 (or .webm) exists, the <video> element above this
+   sits on top and the image becomes a fallback / poster behind it. */
+.landing-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("images/hero.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: cinematicDrift 30s ease-in-out infinite;
+  z-index: 0;
+}
+
+/* Future-video slot — when images/hero.mp4 / hero.webm is dropped in, this
+   layer covers the still landing-bg. Until then, the <source> tags 404 and
+   the browser shows the poster (which is hero.png — same as landing-bg). */
+.landing-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  /* Slight extra zoom so any browser letterboxing is hidden by the still
+     image behind it. */
+  transform: scale(1.02);
+}
+
+@keyframes cinematicDrift {
+  0%   { transform: scale(1.00) translate(0%, 0%);     filter: brightness(0.95); }
+  50%  { transform: scale(1.06) translate(-1.5%, -1%); filter: brightness(1.05); }
+  100% { transform: scale(1.00) translate(0%, 0%);     filter: brightness(0.95); }
+}
+
+/* Vignette overlay — keeps wordmark + quote readable against the warm sky */
+.landing-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 25%, rgba(0,0,0,0.70) 85%),
+    linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.45) 100%);
+  z-index: 1;
+}
+
+.landing-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.landing-wordmark {
+  font-family: var(--mono);
+  font-size: clamp(2rem, 8vw, 7rem);
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--off-white);
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(192,192,192,0.1);
+}
+
+.landing-quote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(0.95rem, 2vw, 1.3rem);
+  color: var(--silver);
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.landing-tagline {
+  font-family: var(--mono);
+  font-size: clamp(0.7rem, 1.5vw, 1rem);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-top: 0.5rem;
+}
+
+.btn-enter {
+  display: inline-block;
+  margin-top: 2.5rem;
+  padding: 0.85rem 2.5rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--silver);
+  border: 1px solid rgba(192,192,192,0.3);
+  text-decoration: none;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.4s ease, color 0.4s ease, background 0.4s ease;
+}
+
+.btn-enter:hover {
+  border-color: var(--silver);
+  color: var(--off-white);
+  background: rgba(192,192,192,0.05);
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.4;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 3rem;
+  background: var(--silver);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.2; transform: scaleY(1); }
+  50%       { opacity: 0.8; transform: scaleY(1.2); }
+}
+
+/* ─── Section 2 — Manifesto ─── */
+/* Backed by hero-about.png — South Street rooftops at dawn 2035, with a heavy
+   dark overlay so the typography stays the dominant visual. */
+#manifesto {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  background-image:
+    linear-gradient(180deg, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.92) 100%),
+    url("images/about.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 8rem 2rem;
+}
+
+.manifesto-inner {
+  max-width: 720px;
+  width: 100%;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 4rem;
+  display: block;
+}
+
+.manifesto-line {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 3vw, 2.1rem);
+  line-height: 1.4;
+  color: var(--off-white);
+  margin-bottom: 0.15em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.manifesto-line.em {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.manifesto-line.small-gap {
+  margin-top: 1.5rem;
+}
+
+.manifesto-line.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Delay each line */
+.manifesto-line:nth-child(2)  { transition-delay: 0s; }
+.manifesto-line:nth-child(3)  { transition-delay: 0.12s; }
+.manifesto-line:nth-child(4)  { transition-delay: 0.24s; }
+.manifesto-line:nth-child(5)  { transition-delay: 0.36s; }
+.manifesto-line:nth-child(6)  { transition-delay: 0.48s; }
+.manifesto-line:nth-child(7)  { transition-delay: 0.60s; }
+.manifesto-line:nth-child(8)  { transition-delay: 0.72s; }
+.manifesto-line:nth-child(9)  { transition-delay: 0.84s; }
+.manifesto-line:nth-child(10) { transition-delay: 0.96s; }
+
+/* ─── Section 3 — Field Studies ─── */
+/* Backed by hero-work.png — reimagined Reading Terminal Market interior, 2050.
+   Heavy overlay because the field-study cards already carry their own surfaces. */
+#field-studies {
+  position: relative;
+  background-color: var(--charcoal);
+  background-image:
+    linear-gradient(180deg, rgba(15,15,20,0.93) 0%, rgba(15,15,20,0.82) 50%, rgba(15,15,20,0.95) 100%),
+    url("images/work.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 8rem 3rem;
+  min-height: 100vh;
+}
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 6rem;
+}
+
+.section-title {
+  font-family: var(--mono);
+  font-size: clamp(1.5rem, 4vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--off-white);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.section-note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--dim);
+  max-width: 480px;
+}
+
+.field-studies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2px;
+  max-width: 1400px;
+}
+
+.field-card {
+  background: var(--black);
+  padding: 3rem 2.5rem;
+  border: 1px solid rgba(192,192,192,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease, border-color 0.4s ease;
+  cursor: pointer;
+}
+
+.field-card:hover {
+  border-color: rgba(192,192,192,0.2);
+}
+
+.field-card.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.field-card:nth-child(2) { transition-delay: 0.15s; }
+.field-card:nth-child(3) { transition-delay: 0.30s; }
+
+.field-card-number {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--dim);
+}
+
+.field-card-title {
+  font-family: var(--mono);
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-weight: 700;
+  color: var(--off-white);
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+}
+
+.field-card-body {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--silver);
+  line-height: 1.7;
+  flex: 1;
+}
+
+.field-card-link {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: var(--dim);
+  text-decoration: none;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(102,102,102,0.4);
+  padding-bottom: 2px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.field-card-link:hover {
+  color: var(--silver);
+  border-color: var(--silver);
+}
+
+/* ─── Section 4 — The Process ─── */
+/* Backed by hero-alt-bridge.png — Ben Franklin Bridge at dawn 2050, solar
+   conductors glowing soft teal. Process is about how a transmission moves;
+   the bridge image earns its place. */
+#process {
+  position: relative;
+  background-color: var(--black);
+  background-image:
+    linear-gradient(180deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.94) 100%),
+    url("images/alt-bridge.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 8rem 3rem;
+  min-height: 80vh;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0;
+  max-width: 1200px;
+  margin-top: 5rem;
+  border-left: 1px solid rgba(192,192,192,0.08);
+}
+
+.process-step {
+  padding: 3rem 2.5rem;
+  border-right: 1px solid rgba(192,192,192,0.08);
+  border-bottom: 1px solid rgba(192,192,192,0.08);
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.process-step:nth-child(2) { transition-delay: 0.12s; }
+.process-step:nth-child(3) { transition-delay: 0.24s; }
+.process-step:nth-child(4) { transition-delay: 0.36s; }
+
+.process-step.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.process-number {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  color: var(--dim);
+  margin-bottom: 2rem;
+  display: block;
+}
+
+.process-name {
+  font-family: var(--mono);
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--off-white);
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  line-height: 1;
+}
+
+.process-separator {
+  width: 2rem;
+  height: 1px;
+  background: rgba(192,192,192,0.25);
+  margin-bottom: 1.5rem;
+}
+
+.process-desc {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--dim);
+  line-height: 1.7;
+}
+
+/* ─── Section 5 — Apply for Transmission ─── */
+/* Backed by hero-contact.png — Schuylkill riverbank promenade at dusk 2050.
+   The apply section is the contact point; the warm riverbank dusk image
+   matches that "send a transmission" mood. */
+#apply {
+  position: relative;
+  background-color: #000000;
+  background-image:
+    linear-gradient(180deg, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.96) 100%),
+    url("images/contact.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 8rem 3rem;
+  min-height: 100vh;
+}
+
+.apply-inner {
+  max-width: 720px;
+}
+
+.apply-header {
+  margin-bottom: 1.5rem;
+}
+
+.apply-title {
+  font-family: var(--mono);
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--off-white);
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+}
+
+.apply-subhead {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--dim);
+}
+
+.form-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(192,192,192,0.1);
+  margin: 3rem 0;
+}
+
+.transmission-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(192,192,192,0.15);
+  color: var(--off-white);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  padding: 0.75rem 0;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.3s ease;
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  border-bottom-color: var(--silver);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: rgba(102,102,102,0.5);
+  font-style: italic;
+}
+
+.form-textarea {
+  resize: none;
+  min-height: 80px;
+  line-height: 1.6;
+}
+
+.form-select {
+  background: var(--charcoal);
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(192,192,192,0.15);
+  cursor: pointer;
+  color: var(--off-white);
+}
+
+.form-select option {
+  background: var(--charcoal);
+  color: var(--off-white);
+}
+
+/* Checkboxes */
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.checkbox-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(192,192,192,0.3);
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease;
+}
+
+.checkbox-item input[type="checkbox"]:checked {
+  background: var(--silver);
+  border-color: var(--silver);
+}
+
+.checkbox-item input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  width: 4px;
+  height: 7px;
+  border: 1.5px solid var(--black);
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.checkbox-item input[type="checkbox"]:hover {
+  border-color: var(--silver);
+}
+
+.checkbox-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--silver);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.btn-transmit {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 1rem 3rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--silver);
+  border: none;
+  cursor: pointer;
+  transition: background 0.4s ease, color 0.4s ease, letter-spacing 0.3s ease;
+  align-self: flex-start;
+}
+
+.btn-transmit:hover {
+  background: var(--off-white);
+  letter-spacing: 0.4em;
+}
+
+/* Form success message */
+.form-success {
+  display: none;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--silver);
+  text-transform: uppercase;
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(192,192,192,0.1);
+  margin-top: 1rem;
+}
+
+/* ─── Section 6 — The Archive ─── */
+#archive {
+  background: var(--charcoal);
+  padding: 8rem 3rem;
+  min-height: 80vh;
+}
+
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 2px;
+  margin-top: 5rem;
+  max-width: 1400px;
+}
+
+.archive-card {
+  background: var(--black);
+  padding: 1.75rem 1.5rem;
+  border: 1px solid rgba(192,192,192,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s ease;
+}
+
+.archive-card.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.archive-card:hover {
+  border-color: rgba(192,192,192,0.15);
+}
+
+/* Stagger archive cards */
+.archive-card:nth-child(1)  { transition-delay: 0.00s; }
+.archive-card:nth-child(2)  { transition-delay: 0.04s; }
+.archive-card:nth-child(3)  { transition-delay: 0.08s; }
+.archive-card:nth-child(4)  { transition-delay: 0.12s; }
+.archive-card:nth-child(5)  { transition-delay: 0.16s; }
+.archive-card:nth-child(6)  { transition-delay: 0.20s; }
+.archive-card:nth-child(7)  { transition-delay: 0.24s; }
+.archive-card:nth-child(8)  { transition-delay: 0.28s; }
+.archive-card:nth-child(9)  { transition-delay: 0.32s; }
+.archive-card:nth-child(10) { transition-delay: 0.36s; }
+.archive-card:nth-child(11) { transition-delay: 0.40s; }
+.archive-card:nth-child(12) { transition-delay: 0.44s; }
+.archive-card:nth-child(13) { transition-delay: 0.48s; }
+.archive-card:nth-child(14) { transition-delay: 0.52s; }
+.archive-card:nth-child(15) { transition-delay: 0.56s; }
+
+.archive-name {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--off-white);
+  text-transform: uppercase;
+}
+
+.archive-desc {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--dim);
+  line-height: 1.5;
+}
+
+/* ─── Footer ─── */
+footer {
+  background: #000000;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(192,192,192,0.06);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-logo {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+
+.footer-note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: rgba(102,102,102,0.5);
+}
+
+/* ─── Scroll reveal utility ─── */
+.reveal-fade {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.reveal-fade.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  #nav {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .nav-links {
+    gap: 1.25rem;
+  }
+
+  .nav-links a {
+    font-size: 0.55rem;
+  }
+
+  #field-studies,
+  #process,
+  #apply,
+  #archive,
+  #manifesto {
+    padding: 6rem 1.5rem;
+  }
+
+  .process-grid {
+    border-left: none;
+  }
+
+  .process-step {
+    border-left: 1px solid rgba(192,192,192,0.08);
+    padding: 2rem 1.5rem;
+  }
+
+  .archive-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  footer {
+    padding: 2rem 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .checkbox-group {
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    display: none;
+  }
+
+  .landing-wordmark {
+    letter-spacing: 0.1em;
+  }
+
+  .field-card {
+    padding: 2rem 1.5rem;
+  }
+}
