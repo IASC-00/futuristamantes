@@ -154,7 +154,7 @@ section {
 .landing-bg {
   position: absolute;
   inset: 0;
-  background-image: url("images/hero.png");
+  background-image: url("images/hero.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -291,7 +291,7 @@ section {
   background-color: #000000;
   background-image:
     linear-gradient(180deg, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.92) 100%),
-    url("images/about.png");
+    url("images/about.webp");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -358,7 +358,7 @@ section {
   background-color: var(--charcoal);
   background-image:
     linear-gradient(180deg, rgba(15,15,20,0.93) 0%, rgba(15,15,20,0.82) 50%, rgba(15,15,20,0.95) 100%),
-    url("images/work.png");
+    url("images/work.webp");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -531,7 +531,7 @@ section {
   background-color: var(--black);
   background-image:
     linear-gradient(180deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.94) 100%),
-    url("images/alt-bridge.png");
+    url("images/alt-bridge.webp");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -609,7 +609,7 @@ section {
   background-color: #000000;
   background-image:
     linear-gradient(180deg, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.96) 100%),
-    url("images/contact.png");
+    url("images/contact.webp");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
