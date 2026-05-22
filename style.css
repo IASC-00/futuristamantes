@@ -9,6 +9,20 @@
   padding: 0;
 }
 
+/* ─── Skip link ─── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  background: #fff;
+  color: #0A0A0A;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  z-index: 9999;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0.5rem; }
+
 :root {
   --black:     #0A0A0A;
   --charcoal:  #1A1A1A;
@@ -128,6 +142,24 @@ body::after {
 
 .nav-links a:hover {
   color: var(--off-white);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 200;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: #fff;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 /* ─── Section shared ─── */
@@ -522,6 +554,12 @@ section {
   border-color: var(--silver);
 }
 
+.field-card-link[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
 /* ─── Section 4 — The Process ─── */
 /* Backed by hero-alt-bridge.png — Ben Franklin Bridge at dawn 2050, solar
    conductors glowing soft teal. Process is about how a transmission moves;
@@ -909,6 +947,12 @@ footer {
   color: rgba(102,102,102,0.5);
 }
 
+/* ─── Focus visible outline ─── */
+*:focus-visible {
+  outline: 2px solid #C8A86B;
+  outline-offset: 4px;
+}
+
 /* ─── Scroll reveal utility ─── */
 .reveal-fade {
   opacity: 0;
@@ -927,9 +971,23 @@ footer {
     padding: 1.25rem 1.5rem;
   }
 
+  .nav-toggle { display: flex; }
+
   .nav-links {
-    gap: 1.25rem;
+    position: fixed;
+    top: 0; right: -100%;
+    width: min(300px, 80vw);
+    height: 100%;
+    background: #0A0A0A;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 4rem 2rem;
+    gap: 2rem;
+    transition: right 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 150;
   }
+  .nav-links.open { right: 0; }
 
   .nav-links a {
     font-size: 0.55rem;
@@ -968,10 +1026,6 @@ footer {
 }
 
 @media (max-width: 480px) {
-  .nav-links {
-    display: none;
-  }
-
   .landing-wordmark {
     letter-spacing: 0.1em;
   }

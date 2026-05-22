@@ -4,10 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Futuristamantes — Cinematic urban futures studio. We create visions for cities, institutions, movements, and neighborhoods." />
+  <meta property="og:image" content="images/hero.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Futuristamantes" />
+  <meta name="twitter:description" content="We remember the future." />
   <meta property="og:title" content="Futuristamantes" />
   <meta property="og:description" content="We remember the future." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#0A0A0A" />
+  <link rel="canonical" href="https://futuristamantes.com" />
   <title>FUTURISTAMANTES</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,10 +21,15 @@
 </head>
 <body>
 
+  <a href="#manifesto" class="skip-link">Skip to content</a>
+
   <!-- ─── Navigation ─── -->
   <nav id="nav" role="navigation" aria-label="Primary navigation">
     <a href="#landing" class="nav-logo">Futuristamantes</a>
-    <ul class="nav-links">
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#manifesto">Manifesto</a></li>
       <li><a href="#field-studies">Field Studies</a></li>
       <li><a href="#process">The Process</a></li>
@@ -101,7 +111,7 @@
         <p class="field-card-body">
           Walkable corridors reclaim the avenue. A jazz brasserie opens in a former CVS. Reactivated public space makes the street legible again &mdash; not as commerce, but as civic room. The car was the problem. We removed it on paper first.
         </p>
-        <a href="#" class="field-card-link">View Field Study &rarr;</a>
+        <a href="#" class="field-card-link" aria-disabled="true" title="Field study forthcoming">Field Study forthcoming &rarr;</a>
       </article>
 
       <article class="field-card">
@@ -114,7 +124,7 @@
         <p class="field-card-body">
           The avenue always had the bones. Transit as spine. Jazz festival as anchor. Nightlife as economic argument. Uptown reborn not through gentrification &mdash; but through a story told so clearly the market followed.
         </p>
-        <a href="#" class="field-card-link">View Field Study &rarr;</a>
+        <a href="#" class="field-card-link" aria-disabled="true" title="Field study forthcoming">Field Study forthcoming &rarr;</a>
       </article>
 
       <article class="field-card">
@@ -127,7 +137,7 @@
         <p class="field-card-body">
           Controlled-environment agriculture integrated into healthcare infrastructure. Produce prescriptions written on clinical pads. Neighborhood food systems built where grocery stores refused to go. The hospital as food hub. The farm as public health intervention.
         </p>
-        <a href="#" class="field-card-link">View Field Study &rarr;</a>
+        <a href="#" class="field-card-link" aria-disabled="true" title="Field study forthcoming">Field Study forthcoming &rarr;</a>
       </article>
 
     </div>
@@ -192,6 +202,7 @@
 
       <div class="form-divider"></div>
 
+      <!-- TODO: Replace "placeholder" in action URL with real Formspree form ID from formspree.io/forms -->
       <form
         id="transmission-form"
         class="transmission-form"
@@ -399,7 +410,7 @@
 
   <!-- ─── Footer ─── -->
   <footer>
-    <span class="footer-logo">Futuristamantes &mdash; futuristamantes.com</span>
+    <span class="footer-logo"><a href="https://futuristamantes.com">Futuristamantes</a> &mdash; &copy; 2026</span>
     <span class="footer-note">Transmitting from the present.</span>
   </footer>
 

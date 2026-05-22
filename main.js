@@ -134,4 +134,26 @@
   );
 
   sections.forEach((s) => sectionObserver.observe(s));
+
+  /* ─── Mobile nav toggle ─── */
+  const navToggle = document.getElementById('navToggle');
+  const navLinksEl = document.getElementById('navLinks');
+  if (navToggle && navLinksEl) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinksEl.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+    navLinksEl.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinksEl.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinksEl.classList.contains('open')) {
+        navLinksEl.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 })();
