@@ -13,7 +13,7 @@
   --bg-2:#101216;
   --fg:#ECECEC;
   --muted:#8A8D93;
-  --faint:#5A5D63;
+  --faint:#7E828A;          /* AA-contrast on --bg (was #5A5D63, failed contrast) */
   --sig:#E8732B;          /* the signal — amber. used with restraint */
   --hair:rgba(236,236,236,.12);
   --hair-2:rgba(236,236,236,.06);
