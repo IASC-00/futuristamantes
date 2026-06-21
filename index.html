@@ -1,432 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Futuristamantes — Cinematic urban futures studio. We create visions for cities, institutions, movements, and neighborhoods." />
-  <meta property="og:image" content="images/hero.webp" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Futuristamantes" />
-  <meta name="twitter:description" content="We remember the future." />
-  <meta property="og:title" content="Futuristamantes" />
-  <meta property="og:description" content="We remember the future." />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#0A0A0A" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Futuristamantes — We remember the future.</title>
+  <meta name="description" content="A media studio that reconstructs the cities, brands, and stories that haven't happened yet — films, documentaries, brand work, and concept reels." />
   <link rel="canonical" href="https://futuristamantes.com" />
-  <title>FUTURISTAMANTES</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <meta name="theme-color" content="#0A0B0D" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Futuristamantes" />
+  <meta property="og:title" content="Futuristamantes — We remember the future." />
+  <meta property="og:description" content="A media studio that reconstructs the cities, brands, and stories that haven't happened yet." />
+  <meta property="og:url" content="https://futuristamantes.com" />
+  <meta property="og:image" content="https://futuristamantes.com/images/og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Futuristamantes — We remember the future." />
+  <meta name="twitter:description" content="A media studio that reconstructs the cities, brands, and stories that haven't happened yet." />
+  <meta name="twitter:image" content="https://futuristamantes.com/images/og.jpg" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <link rel="preload" href="/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/plexmono-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
+  <a class="skip" href="#manifesto">Skip to content</a>
 
-  <a href="#manifesto" class="skip-link">Skip to content</a>
-
-  <!-- ─── Navigation ─── -->
-  <nav id="nav" role="navigation" aria-label="Primary navigation">
-    <a href="#landing" class="nav-logo">Futuristamantes</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#manifesto">Manifesto</a></li>
-      <li><a href="#field-studies">Field Studies</a></li>
-      <li><a href="#process">The Process</a></li>
-      <li><a href="#apply">Apply</a></li>
-      <li><a href="#archive">Archive</a></li>
-    </ul>
-  </nav>
-
-  <!-- ─── Section 1: Landing ───
-       The landing-bg div carries the still hero image as a fallback.
-       When a real video lands at images/hero.mp4 / hero.webm, the <video>
-       element below auto-plays on top of it and the image becomes the poster.
-       Removing the <video> block reverts to the image-only treatment. -->
-  <section id="landing" aria-label="Landing">
-    <video
-      class="landing-video"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="metadata"
-      poster="images/hero.webp"
-      aria-hidden="true"
-    >
-      <source src="images/hero.webm" type="video/webm" />
-      <source src="images/hero.mp4" type="video/mp4" />
-    </video>
-    <div class="landing-bg" aria-hidden="true"></div>
-    <div class="landing-vignette" aria-hidden="true"></div>
-
-    <div class="landing-content">
-      <h1 class="landing-wordmark">Futuristamantes</h1>
-      <p class="landing-quote">&ldquo;We remember the future.&rdquo;</p>
-      <p class="landing-tagline">Space is the place.</p>
-      <a href="#manifesto" class="btn-enter" id="enter-btn">Enter Transmission</a>
+  <!-- ░ COLD OPEN — acquiring signal ░ -->
+  <div id="coldopen" aria-hidden="true">
+    <div class="co-inner">
+      <span class="co-label">Acquiring Signal</span>
+      <div class="co-bar"><i></i></div>
+      <span class="co-meta">FM · Establishing Uplink</span>
     </div>
+  </div>
 
-    <div class="scroll-indicator" aria-hidden="true">
-      <div class="scroll-line"></div>
+  <!-- ░ PERSISTENT VIEWFINDER HUD ░ -->
+  <div class="viewfinder" aria-hidden="true">
+    <span class="vf-corner tl"></span><span class="vf-corner tr"></span>
+    <span class="vf-corner bl"></span><span class="vf-corner br"></span>
+    <div class="hud">
+      <span class="hud-rec"><i class="dot"></i>REC</span>
+      <span class="hud-tc" id="timecode">00:00:00:00</span>
+      <span class="hud-sig">FM · On Air <i class="bars"><b></b><b></b><b></b><b></b></i></span>
     </div>
-  </section>
+  </div>
 
-  <!-- ─── Section 2: Manifesto ─── -->
-  <section id="manifesto" aria-label="Manifesto">
-    <div class="manifesto-inner">
-      <span class="section-label">— 01 / Manifesto</span>
-
-      <div aria-label="Manifesto text">
-        <span class="manifesto-line">Cities are dying from lack of imagination.</span>
-        <span class="manifesto-line">The future is usually obvious long before it arrives.</span>
-        <span class="manifesto-line">Most people simply lack the ability to see it.</span>
-        <span class="manifesto-line small-gap em">We create cinematic future states</span>
-        <span class="manifesto-line em">for cities, institutions, movements,</span>
-        <span class="manifesto-line em">neighborhoods, brands, and ideas.</span>
-        <span class="manifesto-line small-gap">Not advertisements. Visions.</span>
-        <span class="manifesto-line em">We do not predict the future.</span>
-        <span class="manifesto-line em">We provoke it.</span>
+  <main>
+    <!-- ░ 01 — SIGNAL / HERO ░ -->
+    <section id="signal" class="hero">
+      <div class="hero-media" id="heroMedia">
+        <img src="/images/hero.webp" alt="A reimagined city at golden hour — a civic pavilion beneath living green towers and an elevated transit line." fetchpriority="high" />
       </div>
-    </div>
-  </section>
-
-  <!-- ─── Section 3: Field Studies ─── -->
-  <section id="field-studies" aria-label="Field Studies">
-    <div class="section-header reveal-fade">
-      <span class="section-label">— 02 / Field Studies</span>
-      <h2 class="section-title">Field Studies</h2>
-      <p class="section-note">Selected transmissions. Not a portfolio. Documented futures that already exist somewhere.</p>
-    </div>
-
-    <div class="field-studies-grid">
-
-      <article class="field-card">
-        <div class="field-card-media" aria-hidden="true">
-          <img src="images/about.webp" alt="" loading="lazy" />
-          <span class="field-card-media-tag">Still &mdash; video transmission forthcoming</span>
-        </div>
-        <span class="field-card-number">FS &mdash; 001 / Philadelphia</span>
-        <h3 class="field-card-title">Old City 2035</h3>
-        <p class="field-card-body">
-          Walkable corridors reclaim the avenue. A jazz brasserie opens in a former CVS. Reactivated public space makes the street legible again &mdash; not as commerce, but as civic room. The car was the problem. We removed it on paper first.
-        </p>
-        <a href="#" class="field-card-link" aria-disabled="true" title="Field study forthcoming">Field Study forthcoming &rarr;</a>
-      </article>
-
-      <article class="field-card">
-        <div class="field-card-media" aria-hidden="true">
-          <img src="images/alt-bridge.webp" alt="" loading="lazy" />
-          <span class="field-card-media-tag">Still &mdash; video transmission forthcoming</span>
-        </div>
-        <span class="field-card-number">FS &mdash; 002 / Philadelphia</span>
-        <h3 class="field-card-title">North Broad: The Music District</h3>
-        <p class="field-card-body">
-          The avenue always had the bones. Transit as spine. Jazz festival as anchor. Nightlife as economic argument. Uptown reborn not through gentrification &mdash; but through a story told so clearly the market followed.
-        </p>
-        <a href="#" class="field-card-link" aria-disabled="true" title="Field study forthcoming">Field Study forthcoming &rarr;</a>
-      </article>
-
-      <article class="field-card">
-        <div class="field-card-media" aria-hidden="true">
-          <img src="images/work.webp" alt="" loading="lazy" />
-          <span class="field-card-media-tag">Still &mdash; video transmission forthcoming</span>
-        </div>
-        <span class="field-card-number">FS &mdash; 003 / Regional</span>
-        <h3 class="field-card-title">Food City</h3>
-        <p class="field-card-body">
-          Controlled-environment agriculture integrated into healthcare infrastructure. Produce prescriptions written on clinical pads. Neighborhood food systems built where grocery stores refused to go. The hospital as food hub. The farm as public health intervention.
-        </p>
-        <a href="#" class="field-card-link" aria-disabled="true" title="Field study forthcoming">Field Study forthcoming &rarr;</a>
-      </article>
-
-      <article class="field-card field-card-featured">
-        <div class="field-card-media" aria-hidden="true">
-          <img src="images/work.webp" alt="" loading="lazy" />
-          <span class="field-card-media-tag">Film &mdash; In production</span>
-        </div>
-        <span class="field-card-number">FS &mdash; 004 / Philadelphia</span>
-        <h3 class="field-card-title">Brave New Philadelphia</h3>
-        <p class="field-card-body">
-          North Broad Street as a living food corridor. Restaurants that grow what they serve. Vacant buildings as food infrastructure. A city that stops studying its future and starts building it. A Futuristamantes Film &mdash; Another 3 Hearts Production.
-        </p>
-        <a href="#" class="field-card-link" aria-disabled="true" title="Film in production">In Production &rarr;</a>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ─── Section 4: The Process ─── -->
-  <section id="process" aria-label="The Process">
-    <div class="section-header reveal-fade">
-      <span class="section-label">— 03 / The Process</span>
-      <h2 class="section-title">How a Transmission Is Built</h2>
-    </div>
-
-    <div class="process-grid">
-
-      <div class="process-step">
-        <span class="process-number">01</span>
-        <h3 class="process-name">Signal</h3>
-        <div class="process-separator"></div>
-        <p class="process-desc">
-          We listen for what is already trying to happen. Every city has a future pressing against the present. We locate it.
-        </p>
+      <div class="hero-scrim"></div>
+      <div class="hero-body">
+        <p class="eyebrow">Transmission 01 — Media Studio</p>
+        <h1 class="wordmark">Futuristamantes</h1>
+        <p class="tagline">We remember the future.</p>
+        <p class="lede">A media studio that reconstructs the cities, brands, and stories that haven't happened yet — then puts them on screen.</p>
+        <a class="scrollcue" href="#manifesto">Scroll to receive <span aria-hidden="true">↓</span></a>
       </div>
+    </section>
 
-      <div class="process-step">
-        <span class="process-number">02</span>
-        <h3 class="process-name">Simulation</h3>
-        <div class="process-separator"></div>
-        <p class="process-desc">
-          We render the future in full. Cinematic, spatial, economic, cultural — a vision complete enough to be believed, argued over, and funded.
-        </p>
+    <!-- ░ 02 — MANIFESTO ░ -->
+    <section id="manifesto" class="manifesto reveal">
+      <p class="slate">FM-02 // Manifesto</p>
+      <div class="manifesto-lines">
+        <p class="line">We don't predict the future.</p>
+        <p class="line">We <em>remember</em> it — vividly enough to film.</p>
+        <p class="line">Every place holds a version of itself it hasn't dared become.</p>
+        <p class="line">We find that version, build it frame by frame, and hand it back as something you can see.</p>
+        <p class="line">A future you can watch is a future you can choose.</p>
       </div>
+    </section>
 
-      <div class="process-step">
-        <span class="process-number">03</span>
-        <h3 class="process-name">Alignment</h3>
-        <div class="process-separator"></div>
-        <p class="process-desc">
-          We bring the vision to the people who can move it — elected officials, anchors, investors, communities, institutions. We translate. We convene.
-        </p>
-      </div>
+    <!-- ░ 03 — TRANSMISSIONS / WORK ░ -->
+    <section id="transmissions" class="work reveal">
+      <header class="work-head">
+        <p class="slate">FM-03 // Transmissions</p>
+        <h2 class="section-title">The work, and the work that's coming.</h2>
+        <p class="section-lede">Short by design. Each transmission is a proof — of a place, a brand, or a story rendered as it could be.</p>
+      </header>
+      <div id="rails" class="rails"><!-- rails injected from work.json --></div>
+    </section>
 
-      <div class="process-step">
-        <span class="process-number">04</span>
-        <h3 class="process-name">Execution</h3>
-        <div class="process-separator"></div>
-        <p class="process-desc">
-          Some futures only need to be seen clearly. Others need to be built. We remain through both — until the vision is no longer speculative.
-        </p>
-      </div>
+    <!-- ░ 04 — CAPABILITY ░ -->
+    <section id="capability" class="capability reveal">
+      <header class="cap-head">
+        <p class="slate">FM-04 // Capability</p>
+        <h2 class="section-title">What we make, and how.</h2>
+        <p class="section-lede">Concept films, brand films, documentaries, and social cuts — built on one method that turns an idea into footage.</p>
+      </header>
+      <ol class="method">
+        <li><span class="step">01</span><h3>Signal</h3><p>We listen for the version of a place or brand worth showing — the future already implied by the present.</p></li>
+        <li><span class="step">02</span><h3>Simulation</h3><p>We build it: scripted, designed, and rendered into a world with a look you can hold in one frame.</p></li>
+        <li><span class="step">03</span><h3>Alignment</h3><p>We tune it with you until the story is true to the room it has to move — funders, residents, customers.</p></li>
+        <li><span class="step">04</span><h3>Execution</h3><p>We deliver the cut: film, doc, spot, or vertical — finished, graded, and ready to broadcast.</p></li>
+      </ol>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- ─── Section 5: Apply for Transmission ─── -->
-  <section id="apply" aria-label="Apply for Transmission">
-    <div class="apply-inner">
-      <div class="apply-header reveal-fade">
-        <span class="section-label">— 04 / Apply</span>
-        <h2 class="apply-title">Apply for<br />Transmission</h2>
-        <p class="apply-subhead">Not all applications are accepted.</p>
-      </div>
-
-      <div class="form-divider"></div>
-
-      <!-- TODO: Replace "placeholder" in action URL with real Formspree form ID from formspree.io/forms -->
-      <form
-        id="transmission-form"
-        class="transmission-form"
-        action="https://formspree.io/f/placeholder"
-        method="POST"
-        novalidate
-      >
-
-        <div class="form-group">
-          <label class="form-label" for="future">What future are you trying to create?</label>
-          <textarea
-            id="future"
-            name="future"
-            class="form-textarea"
-            rows="3"
-            placeholder="Describe the world you are building toward."
-            required
-          ></textarea>
+    <!-- ░ 05 — CONTACT ░ -->
+    <section id="contact" class="contact reveal">
+      <header class="contact-head">
+        <p class="slate">FM-05 // Start a Transmission</p>
+        <h2 class="section-title">Tell us the future you want on screen.</h2>
+      </header>
+      <form id="inquiry" class="form" novalidate>
+        <div class="field">
+          <label for="f-name">Name</label>
+          <input id="f-name" name="from_name" type="text" autocomplete="name" required />
         </div>
-
-        <div class="form-group">
-          <label class="form-label" for="problem">What problem are you trying to solve?</label>
-          <textarea
-            id="problem"
-            name="problem"
-            class="form-textarea"
-            rows="3"
-            placeholder="Name it plainly."
-            required
-          ></textarea>
+        <div class="field">
+          <label for="f-org">Organization</label>
+          <input id="f-org" name="org" type="text" autocomplete="organization" />
         </div>
-
-        <div class="form-group">
-          <label class="form-label" for="matters">Why does this matter?</label>
-          <textarea
-            id="matters"
-            name="matters"
-            class="form-textarea"
-            rows="2"
-            placeholder="To whom. And why now."
-          ></textarea>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="reply_to" type="email" autocomplete="email" required />
         </div>
-
-        <div class="form-group">
-          <label class="form-label" for="why-now">Why now?</label>
-          <textarea
-            id="why-now"
-            name="why_now"
-            class="form-textarea"
-            rows="2"
-            placeholder="What has changed, or is changing."
-          ></textarea>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="stakes">What happens if nothing changes?</label>
-          <textarea
-            id="stakes"
-            name="stakes"
-            class="form-textarea"
-            rows="2"
-            placeholder="State the consequence plainly."
-          ></textarea>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="budget">Budget range</label>
-          <select id="budget" name="budget" class="form-select" required>
-            <option value="" disabled selected>Select a range</option>
-            <option value="under-10k">Under $10K</option>
-            <option value="10k-50k">$10K &ndash; $50K</option>
-            <option value="50k-150k">$50K &ndash; $150K</option>
-            <option value="150k+">$150K+</option>
+        <div class="field">
+          <label for="f-type">Project type</label>
+          <select id="f-type" name="project_type">
+            <option>Concept / Future film</option>
+            <option>Brand film / Promo spot</option>
+            <option>Documentary / Mini-doc</option>
+            <option>Social / Vertical cuts</option>
+            <option>Not sure yet</option>
           </select>
         </div>
-
-        <div class="form-group">
-          <span class="form-label">You are seeking</span>
-          <div class="checkbox-group" role="group" aria-label="Services sought">
-            <label class="checkbox-item">
-              <input type="checkbox" name="seeking[]" value="vision-only" />
-              <span class="checkbox-label">Vision only</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="seeking[]" value="strategy" />
-              <span class="checkbox-label">Strategy</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="seeking[]" value="implementation" />
-              <span class="checkbox-label">Implementation</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="seeking[]" value="movement-building" />
-              <span class="checkbox-label">Movement building</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="seeking[]" value="civic-activation" />
-              <span class="checkbox-label">Civic activation</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="seeking[]" value="institutional-alignment" />
-              <span class="checkbox-label">Institutional alignment</span>
-            </label>
-          </div>
+        <div class="field">
+          <label for="f-budget">Budget range</label>
+          <select id="f-budget" name="budget">
+            <option>Under $5k</option>
+            <option>$5k – $15k</option>
+            <option>$15k – $50k</option>
+            <option>$50k+</option>
+            <option>Let's discuss</option>
+          </select>
         </div>
-
-        <button type="submit" class="btn-transmit">Transmit</button>
-
+        <div class="field field--full">
+          <label for="f-msg">What are we making?</label>
+          <textarea id="f-msg" name="message" rows="4" required></textarea>
+        </div>
+        <div class="form-foot">
+          <button type="submit" class="btn">Transmit <span aria-hidden="true">→</span></button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+          <p class="form-fallback">Prefer email? <a id="mailtoFallback" href="mailto:hello@futuristamantes.com">hello@futuristamantes.com</a></p>
+        </div>
       </form>
+    </section>
+  </main>
 
-      <div id="form-success" class="form-success" role="status" aria-live="polite">
-        Transmission received. &mdash; We will be in contact.
-      </div>
-
+  <footer class="footer">
+    <div class="footer-top">
+      <p class="foot-mark">Futuristamantes</p>
+      <p class="foot-tag">We remember the future.</p>
     </div>
-  </section>
-
-  <!-- ─── Section 6: The Archive ─── -->
-  <section id="archive" aria-label="The Archive">
-    <div class="section-header reveal-fade">
-      <span class="section-label">— 05 / The Archive</span>
-      <h2 class="section-title">The Archive</h2>
-      <p class="section-note">Every transmission draws from a lineage. These are ours.</p>
+    <div class="footer-bottom">
+      <a href="mailto:hello@futuristamantes.com">hello@futuristamantes.com</a>
+      <span class="foot-loc">Available Worldwide</span>
+      <span class="foot-copy">© 2026 Futuristamantes</span>
     </div>
-
-    <div class="archive-grid">
-
-      <div class="archive-card">
-        <span class="archive-name">Sun Ra</span>
-        <span class="archive-desc">Space is the place. Cosmic optimism as radical act.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Jane Jacobs</span>
-        <span class="archive-desc">The street as organism. Complexity over order.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Buckminster Fuller</span>
-        <span class="archive-desc">Design science as response to scarcity. Do more with less.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Graffiti</span>
-        <span class="archive-desc">Unauthorized futures written on public surfaces.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Jazz</span>
-        <span class="archive-desc">Improvisation as methodology. Tension, release, return.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Urban Diagrams</span>
-        <span class="archive-desc">The map that shows what a city could become.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Transit Maps</span>
-        <span class="archive-desc">Abstracted territory. Desire lines made legible.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Food Systems</span>
-        <span class="archive-desc">Infrastructure as politics. Who eats, and where.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Architecture</span>
-        <span class="archive-desc">The discipline that argues with time using stone and light.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Detroit</span>
-        <span class="archive-desc">Collapse as site of invention. The city that refuses to end.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Blade Runner</span>
-        <span class="archive-desc">Urban density as texture. The rain-slicked street at 2AM.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Mural Arts</span>
-        <span class="archive-desc">The wall as civic declaration. Beauty as policy argument.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Tokyo</span>
-        <span class="archive-desc">Layered time. Old and future coexisting without apology.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Old Philly</span>
-        <span class="archive-desc">The bones are good. What the city was is what it can be again.</span>
-      </div>
-
-      <div class="archive-card">
-        <span class="archive-name">Future Rail</span>
-        <span class="archive-desc">Transit as sovereignty. Move freely or don&rsquo;t move at all.</span>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ─── Footer ─── -->
-  <footer>
-    <span class="footer-logo"><a href="https://futuristamantes.com">Futuristamantes</a> &mdash; &copy; 2026</span>
-    <span class="footer-note">Transmitting from the present.</span>
+    <p class="foot-signoff" aria-hidden="true">// End of Transmission</p>
   </footer>
 
-  <script src="main.js"></script>
+  <!-- Lightbox -->
+  <dialog id="lightbox" class="lightbox" aria-label="Transmission viewer">
+    <button class="lb-close" aria-label="Close">✕</button>
+    <div class="lb-stage" id="lbStage"></div>
+    <p class="lb-cap" id="lbCap"></p>
+  </dialog>
+
+  <script src="/vendor/emailjs.min.js" defer></script>
+  <script src="/main.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "FM-001",
+    "title": "Independence Mall",
+    "category": "concept",
+    "status": "live",
+    "poster": "/images/hero.webp",
+    "full": "/images/hero.png",
+    "alt": "The Liberty Bell pavilion at golden hour beneath living green towers and an elevated transit line.",
+    "blurb": "The Liberty Bell pavilion beneath living towers and an elevated line."
+  },
+  {
+    "id": "FM-002",
+    "title": "Reading Terminal",
+    "category": "concept",
+    "status": "live",
+    "poster": "/images/work.webp",
+    "full": "/images/work.png",
+    "alt": "Reading Terminal Market reimagined as a vertical farm with basil walls and year-round produce.",
+    "blurb": "The market as a vertical farm — basil walls, year-round harvest."
+  },
+  {
+    "id": "FM-003",
+    "title": "Rooftop City",
+    "category": "concept",
+    "status": "live",
+    "poster": "/images/about.webp",
+    "full": "/images/about.png",
+    "alt": "The Philadelphia skyline at dusk seen from a planted rooftop, a delivery drone over the river.",
+    "blurb": "Skyline at dusk from a green rooftop, drone inbound over the bridge."
+  },
+  {
+    "id": "FM-004",
+    "title": "Benjamin Franklin Bridge",
+    "category": "concept",
+    "status": "live",
+    "poster": "/images/alt-bridge.webp",
+    "full": "/images/alt-bridge.png",
+    "alt": "The Benjamin Franklin Bridge regrown with green-lit towers, low-altitude transit, and river fog.",
+    "blurb": "The bridge regrown — green-lit towers, low transit, river fog."
+  },
+  {
+    "id": "FM-005",
+    "title": "The Riverfront",
+    "category": "concept",
+    "status": "live",
+    "poster": "/images/contact.webp",
+    "full": "/images/contact.png",
+    "alt": "A riverfront boardwalk at sunset beneath an elevated transit line, lit by lanterns and gardens.",
+    "blurb": "A boardwalk at sunset beneath an elevated line, lanterns and gardens."
+  }
+]
