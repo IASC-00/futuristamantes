@@ -351,7 +351,7 @@ FADE TO BLACK.
 
 Another line fades in:
 
-**GROWING ITS OWN FUTURE… CULTIVATE POSSIBILITIES**
+**GROWING IT'S OWN FUTURE...CULTIVATE POSSIBILITIES**
 
 ---
 
@@ -373,4 +373,3 @@ Another line fades in:
 - **Music:** Minimal, cinematic, hopeful. No music until title card.
 - **Locations:** SOUTH Restaurant, Honeysuckle, The Garage Building, A Church, Samuel Staten Building, PCA Building, North Broad Street corridor (drone finale)
 - **Tone:** NOT charity imagery. Beauty. Dignity. Civic ambition.
-- **Connection:** This film is Field Study FS-004 for Futuristamantes. Directly aligned with CIVIC OS pilot deployment (food systems, North Broad corridor).
