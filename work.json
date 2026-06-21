@@ -1,52 +1,52 @@
 [
   {
     "id": "FM-001",
-    "title": "Independence Mall",
+    "title": "The Commons",
     "category": "concept",
     "status": "live",
-    "poster": "/images/hero.webp",
-    "full": "/images/hero.png",
-    "alt": "The Liberty Bell pavilion at golden hour beneath living green towers and an elevated transit line.",
-    "blurb": "The Liberty Bell pavilion beneath living towers and an elevated line."
+    "poster": "/images/c-plaza.webp",
+    "full": "/images/c-plaza.webp",
+    "alt": "A civic plaza reclaimed as terraced gardens and water channels at golden hour.",
+    "blurb": "A civic plaza reclaimed as terraced gardens and water."
   },
   {
     "id": "FM-002",
-    "title": "Reading Terminal",
+    "title": "The Market Hall",
     "category": "concept",
     "status": "live",
-    "poster": "/images/work.webp",
-    "full": "/images/work.png",
-    "alt": "Reading Terminal Market reimagined as a vertical farm with basil walls and year-round produce.",
-    "blurb": "The market as a vertical farm — basil walls, year-round harvest."
+    "poster": "/images/c-market.webp",
+    "full": "/images/c-market.webp",
+    "alt": "A grand market hall reborn as a vertical farm, green walls under a glass roof.",
+    "blurb": "A market reborn as a vertical farm under glass."
   },
   {
     "id": "FM-003",
-    "title": "Rooftop City",
+    "title": "The Waterfront",
     "category": "concept",
     "status": "live",
-    "poster": "/images/about.webp",
-    "full": "/images/about.png",
-    "alt": "The Philadelphia skyline at dusk seen from a planted rooftop, a delivery drone over the river.",
-    "blurb": "Skyline at dusk from a green rooftop, drone inbound over the bridge."
+    "poster": "/images/c-waterfront.webp",
+    "full": "/images/c-waterfront.webp",
+    "alt": "A regenerated river waterfront at sunset with wetlands, an elevated line, and low green towers.",
+    "blurb": "A river's edge regrown — wetlands, transit, low green towers."
   },
   {
     "id": "FM-004",
-    "title": "Benjamin Franklin Bridge",
+    "title": "Vertical Village",
     "category": "concept",
     "status": "live",
-    "poster": "/images/alt-bridge.webp",
-    "full": "/images/alt-bridge.png",
-    "alt": "The Benjamin Franklin Bridge regrown with green-lit towers, low-altitude transit, and river fog.",
-    "blurb": "The bridge regrown — green-lit towers, low transit, river fog."
+    "poster": "/images/c-tower.webp",
+    "full": "/images/c-tower.webp",
+    "alt": "A residential green megastructure with cascading planted terraces lit at dusk.",
+    "blurb": "A residential megastructure of cascading planted terraces."
   },
   {
     "id": "FM-005",
-    "title": "The Riverfront",
+    "title": "The Interchange",
     "category": "concept",
     "status": "live",
-    "poster": "/images/contact.webp",
-    "full": "/images/contact.png",
-    "alt": "A riverfront boardwalk at sunset beneath an elevated transit line, lit by lanterns and gardens.",
-    "blurb": "A boardwalk at sunset beneath an elevated line, lanterns and gardens."
+    "poster": "/images/c-transit.webp",
+    "full": "/images/c-transit.webp",
+    "alt": "The interior of a future transit hall beneath a vaulted living roof of plants.",
+    "blurb": "A transit hall beneath a living roof."
   }
 ]

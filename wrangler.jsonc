@@ -6,7 +6,7 @@
   },
   "assets": {
     "directory": ".",
-    "exclude": [".git/**", ".wrangler/**", "*.md", "scripts/**"]
+    "exclude": [".git/**", ".wrangler/**", "*.md", "scripts/**", "images/gen/**", "docs/**", "*.py"]
   },
   "compatibility_flags": [
     "nodejs_compat"
