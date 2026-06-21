@@ -1,0 +1,11 @@
+.git
+.wrangler
+node_modules
+scripts
+docs
+images/gen
+*.py
+*.md
+.gitignore
+.assetsignore
+wrangler.jsonc

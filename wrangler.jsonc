@@ -1,14 +1,5 @@
 {
   "name": "futuristamantes",
   "compatibility_date": "2026-05-23",
-  "observability": {
-    "enabled": true
-  },
-  "assets": {
-    "directory": ".",
-    "exclude": [".git/**", ".wrangler/**", "*.md", "scripts/**", "images/gen/**", "docs/**", "*.py"]
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  "pages_build_output_dir": "."
 }
