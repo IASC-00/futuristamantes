@@ -4,6 +4,7 @@ node_modules
 scripts
 docs
 images/gen
+images/gen-demos
 *.py
 *.md
 .gitignore

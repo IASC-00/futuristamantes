@@ -48,5 +48,35 @@
     "full": "/images/c-transit.webp",
     "alt": "The interior of a future transit hall beneath a vaulted living roof of plants.",
     "blurb": "A transit hall beneath a living roof."
+  },
+  {
+    "id": "FM-006",
+    "title": "Object Study",
+    "category": "brand",
+    "status": "live",
+    "poster": "/images/c-brand.webp",
+    "full": "/images/c-brand.webp",
+    "alt": "A brand-film still — a sculptural product on a lit pedestal in a dark studio.",
+    "blurb": "A brand film — one form, one light, in the dark."
+  },
+  {
+    "id": "FM-007",
+    "title": "Common Ground",
+    "category": "doc",
+    "status": "live",
+    "poster": "/images/c-doc.webp",
+    "full": "/images/c-doc.webp",
+    "alt": "A documentary still — people tending a community garden at golden hour.",
+    "blurb": "A documentary frame — a community garden at golden hour."
+  },
+  {
+    "id": "FM-008",
+    "title": "Night Signal",
+    "category": "social",
+    "status": "live",
+    "poster": "/images/c-social.webp",
+    "full": "/images/c-social.webp",
+    "alt": "A vertical social cut — a figure on a rooftop above a glowing city at dusk.",
+    "blurb": "A vertical cut — a figure above the glowing city at dusk."
   }
 ]
