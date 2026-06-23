@@ -4,111 +4,110 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Futuristamantes — We remember the future.</title>
-  <meta name="description" content="A media studio that reconstructs the cities, brands, and stories that haven't happened yet — films, documentaries, brand work, and concept reels." />
+  <meta name="description" content="A media studio that makes a single object — or an entire city — cinematic. Brand and product films, concept films, documentaries, and social cuts." />
   <link rel="canonical" href="https://futuristamantes.com" />
-  <meta name="theme-color" content="#0A0B0D" />
+  <meta name="theme-color" content="#EAEDF1" />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Futuristamantes" />
   <meta property="og:title" content="Futuristamantes — We remember the future." />
-  <meta property="og:description" content="A media studio that reconstructs the cities, brands, and stories that haven't happened yet." />
+  <meta property="og:description" content="A media studio that makes a single object — or an entire city — cinematic." />
   <meta property="og:url" content="https://futuristamantes.com" />
   <meta property="og:image" content="https://futuristamantes.com/images/og.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Futuristamantes — We remember the future." />
-  <meta name="twitter:description" content="A media studio that reconstructs the cities, brands, and stories that haven't happened yet." />
+  <meta name="twitter:description" content="A media studio that makes a single object — or an entire city — cinematic." />
   <meta name="twitter:image" content="https://futuristamantes.com/images/og.jpg" />
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="/site.webmanifest" />
 
+  <link rel="preload" href="/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/newsreader-italic-var.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/fonts/plexmono-400.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <a class="skip" href="#manifesto">Skip to content</a>
+  <a class="skip" href="#catalogue">Skip to the catalogue</a>
 
-  <!-- ░ COLD OPEN — acquiring signal ░ -->
-  <div id="coldopen" aria-hidden="true">
-    <div class="co-inner">
-      <span class="co-label">Acquiring Signal</span>
-      <div class="co-bar"><i></i></div>
-      <span class="co-meta">FM · Establishing Uplink</span>
-    </div>
-  </div>
+  <header class="bar">
+    <a class="mark" href="#top" aria-label="Futuristamantes — home">Futuristamantes</a>
+    <nav aria-label="Primary">
+      <a href="#catalogue">Catalogue</a>
+      <a href="#method">Method</a>
+      <a href="#manifesto">Studio</a>
+      <a href="#contact" class="cta">Commission</a>
+    </nav>
+  </header>
 
-  <!-- ░ PERSISTENT VIEWFINDER HUD ░ -->
-  <div class="viewfinder" aria-hidden="true">
-    <span class="vf-corner tl"></span><span class="vf-corner tr"></span>
-    <span class="vf-corner bl"></span><span class="vf-corner br"></span>
-    <div class="hud">
-      <span class="hud-rec"><i class="dot"></i>REC</span>
-      <span class="hud-tc" id="timecode">00:00:00:00</span>
-      <span class="hud-sig">FM · On Air <i class="bars"><b></b><b></b><b></b><b></b></i></span>
-    </div>
-  </div>
+  <main id="top">
 
-  <main>
-    <!-- ░ 01 — SIGNAL / HERO ░ -->
-    <section id="signal" class="hero">
-      <div class="hero-media" id="heroMedia">
-        <img src="/images/hero.webp" alt="A reimagined city at golden hour — a civic pavilion beneath living green towers and an elevated transit line." fetchpriority="high" />
-      </div>
-      <div class="hero-scrim"></div>
-      <div class="hero-body">
-        <p class="eyebrow">Transmission 01 — Media Studio</p>
-        <h1 class="wordmark">Futuristamantes</h1>
-        <p class="tagline">We remember the future.</p>
-        <p class="lede">A media studio that reconstructs the cities, brands, and stories that haven't happened yet — then puts them on screen.</p>
-        <a class="scrollcue" href="#manifesto">Scroll to receive <span aria-hidden="true">↓</span></a>
+    <!-- ── HERO ── -->
+    <section class="hero wrap" id="signal">
+      <p class="eyebrow label">Catalogue of Futures <span class="i">—</span> A media studio</p>
+      <div class="hero-grid">
+        <div>
+          <h1 class="thesis">We <em>remember</em><br />the <span class="u">future</span>.</h1>
+          <p class="lede">A studio that makes a single object — or an entire city — cinematic. We reconstruct the brands, products, and places that haven't happened yet, and hand them back as film.</p>
+          <div class="hero-cta">
+            <a class="btn" href="#catalogue">View the catalogue <span aria-hidden="true">↓</span></a>
+            <a class="btn btn--ghost" href="#contact">Commission a film</a>
+          </div>
+        </div>
+        <div class="plate-hero">
+          <div class="frame">
+            <span class="tab">FM-000 · Establishing</span>
+            <img src="/images/hero.webp" alt="A reimagined green metropolis at golden hour — vertical forests, an elevated transit line, terraced gardens below." fetchpriority="high" />
+          </div>
+          <p class="plate-cap"><b>Plate FM-000</b><span>Establishing shot</span><span>Concept</span></p>
+        </div>
       </div>
     </section>
 
-    <!-- ░ 02 — MANIFESTO ░ -->
-    <section id="manifesto" class="manifesto reveal">
-      <p class="slate">FM-02 // Manifesto</p>
-      <div class="manifesto-lines">
-        <p class="line">We don't predict the future.</p>
-        <p class="line">We <em>remember</em> it — vividly enough to film.</p>
-        <p class="line">Every place holds a version of itself it hasn't dared become.</p>
-        <p class="line">We find that version, build it frame by frame, and hand it back as something you can see.</p>
-        <p class="line">A future you can watch is a future you can choose.</p>
+    <!-- ── MANIFESTO ── -->
+    <section class="sec wrap manifesto reveal" id="manifesto">
+      <p class="label"><span class="i">I</span> — Manifesto</p>
+      <div style="margin-top:1.6rem;display:grid;gap:1.1rem">
+        <p>We don't predict the future. We <em>remember</em> it — vividly enough to film.</p>
+        <p>Every place, brand, and object holds a version of itself it hasn't dared become. We find that version, build it frame by frame, and make it something you can see.</p>
       </div>
     </section>
 
-    <!-- ░ 03 — TRANSMISSIONS / WORK ░ -->
-    <section id="transmissions" class="work reveal">
-      <header class="work-head">
-        <p class="slate">FM-03 // Transmissions</p>
-        <h2 class="section-title">The work, and the work that's coming.</h2>
-        <p class="section-lede">Short by design. Each transmission is a proof — of a place, a brand, or a story rendered as it could be.</p>
-      </header>
-      <div id="rails" class="rails"><!-- rails injected from work.json --></div>
+    <!-- ── CATALOGUE ── -->
+    <section class="sec wrap reveal" id="catalogue">
+      <div class="cat-head">
+        <div class="sec-head" style="margin-bottom:0">
+          <p class="label"><span class="i">II</span> — The Catalogue</p>
+          <h2 class="section-title">A catalogue of futures, on film.</h2>
+        </div>
+        <p class="right">Each plate is held in monochrome. Colour returns when you look closer.</p>
+      </div>
+      <div class="filters" id="filters" role="tablist" aria-label="Filter the catalogue"></div>
+      <div id="tracks"><!-- tracks + plates injected from work.json --></div>
     </section>
 
-    <!-- ░ 04 — CAPABILITY ░ -->
-    <section id="capability" class="capability reveal">
-      <header class="cap-head">
-        <p class="slate">FM-04 // Capability</p>
-        <h2 class="section-title">What we make, and how.</h2>
-        <p class="section-lede">Concept films, brand films, documentaries, and social cuts — built on one method that turns an idea into footage.</p>
-      </header>
-      <ol class="method">
-        <li><span class="step">01</span><h3>Signal</h3><p>We listen for the version of a place or brand worth showing — the future already implied by the present.</p></li>
-        <li><span class="step">02</span><h3>Simulation</h3><p>We build it: scripted, designed, and rendered into a world with a look you can hold in one frame.</p></li>
-        <li><span class="step">03</span><h3>Alignment</h3><p>We tune it with you until the story is true to the room it has to move — funders, residents, customers.</p></li>
-        <li><span class="step">04</span><h3>Execution</h3><p>We deliver the cut: film, doc, spot, or vertical — finished, graded, and ready to broadcast.</p></li>
+    <!-- ── METHOD ── -->
+    <section class="sec wrap reveal" id="method">
+      <div class="sec-head">
+        <p class="label"><span class="i">III</span> — The Method</p>
+        <h2 class="section-title">One method, from idea to footage.</h2>
+        <p class="section-lede">Whether the subject is a perfume bottle or a waterfront, the path is the same: find the future already implied, then build it until it's true.</p>
+      </div>
+      <ol class="steps" style="list-style:none">
+        <li class="step"><div class="n">01</div><h4>Signal</h4><p>We find the version worth showing — the future already implied by a place, a brand, or an object.</p></li>
+        <li class="step"><div class="n">02</div><h4>Simulation</h4><p>We build it: scripted, designed, and rendered into a world you can hold in a single frame.</p></li>
+        <li class="step"><div class="n">03</div><h4>Alignment</h4><p>We tune it with you until the story is true to the room it has to move — funders, residents, customers.</p></li>
+        <li class="step"><div class="n">04</div><h4>Execution</h4><p>We deliver the cut — film, doc, spot, or vertical — finished, graded, and ready to run.</p></li>
       </ol>
     </section>
 
-    <!-- ░ 05 — CONTACT ░ -->
-    <section id="contact" class="contact reveal">
-      <header class="contact-head">
-        <p class="slate">FM-05 // Start a Transmission</p>
+    <!-- ── CONTACT ── -->
+    <section class="sec wrap reveal" id="contact">
+      <div class="sec-head">
+        <p class="label"><span class="i">IV</span> — Commission</p>
         <h2 class="section-title">Tell us the future you want on screen.</h2>
-      </header>
+      </div>
       <form id="inquiry" class="form" novalidate>
         <div class="field">
           <label for="f-name">Name</label>
@@ -125,8 +124,9 @@
         <div class="field">
           <label for="f-type">Project type</label>
           <select id="f-type" name="project_type">
+            <option>Brand / Product film</option>
+            <option>Food / Beverage / Fragrance spot</option>
             <option>Concept / Future film</option>
-            <option>Brand film / Promo spot</option>
             <option>Documentary / Mini-doc</option>
             <option>Social / Vertical cuts</option>
             <option>Not sure yet</option>
@@ -147,7 +147,7 @@
           <textarea id="f-msg" name="message" rows="4" required></textarea>
         </div>
         <div class="form-foot">
-          <button type="submit" class="btn">Transmit <span aria-hidden="true">→</span></button>
+          <button type="submit" class="btn">Send <span aria-hidden="true">→</span></button>
           <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
           <p class="form-fallback">Prefer email? <a id="mailtoFallback" href="mailto:hello@futuristamantes.com">hello@futuristamantes.com</a></p>
         </div>
@@ -155,24 +155,25 @@
     </section>
   </main>
 
-  <footer class="footer">
+  <footer class="footer wrap">
     <div class="footer-top">
       <p class="foot-mark">Futuristamantes</p>
       <p class="foot-tag">We remember the future.</p>
     </div>
     <div class="footer-bottom">
       <a href="mailto:hello@futuristamantes.com">hello@futuristamantes.com</a>
-      <span class="foot-loc">Available Worldwide</span>
-      <span class="foot-copy">© 2026 Futuristamantes</span>
+      <span>Available Worldwide</span>
+      <span>© 2026 — Catalogue of Futures</span>
     </div>
-    <p class="foot-signoff" aria-hidden="true">// End of Transmission</p>
   </footer>
 
   <!-- Lightbox -->
-  <dialog id="lightbox" class="lightbox" aria-label="Transmission viewer">
-    <button class="lb-close" aria-label="Close">✕</button>
-    <div class="lb-stage" id="lbStage"></div>
-    <p class="lb-cap" id="lbCap"></p>
+  <dialog id="lightbox" class="lightbox" aria-label="Catalogue viewer">
+    <div class="lb-inner">
+      <button class="lb-close" aria-label="Close">✕</button>
+      <div class="lb-stage" id="lbStage"></div>
+      <p class="lb-cap" id="lbCap"></p>
+    </div>
   </dialog>
 
   <script src="/vendor/emailjs.min.js" defer></script>

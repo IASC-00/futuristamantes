@@ -10,3 +10,4 @@ images/gen-demos
 .gitignore
 .assetsignore
 wrangler.jsonc
+images/gen-products

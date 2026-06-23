@@ -6,3 +6,8 @@ dist/
 .env.local
 .vscode/
 .wrangler/
+
+# regenerable image-gen source PNGs (deploy-excluded via .assetsignore; rebuild with gen_products.py)
+images/gen-products/
+# internal project docs — kept out of this PUBLIC repo
+overview/

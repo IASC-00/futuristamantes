@@ -1,82 +1,87 @@
-[
-  {
-    "id": "FM-001",
-    "title": "The Commons",
-    "category": "concept",
-    "status": "live",
-    "poster": "/images/c-plaza.webp",
-    "full": "/images/c-plaza.webp",
-    "alt": "A civic plaza reclaimed as terraced gardens and water channels at golden hour.",
-    "blurb": "A civic plaza reclaimed as terraced gardens and water."
-  },
-  {
-    "id": "FM-002",
-    "title": "The Market Hall",
-    "category": "concept",
-    "status": "live",
-    "poster": "/images/c-market.webp",
-    "full": "/images/c-market.webp",
-    "alt": "A grand market hall reborn as a vertical farm, green walls under a glass roof.",
-    "blurb": "A market reborn as a vertical farm under glass."
-  },
-  {
-    "id": "FM-003",
-    "title": "The Waterfront",
-    "category": "concept",
-    "status": "live",
-    "poster": "/images/c-waterfront.webp",
-    "full": "/images/c-waterfront.webp",
-    "alt": "A regenerated river waterfront at sunset with wetlands, an elevated line, and low green towers.",
-    "blurb": "A river's edge regrown — wetlands, transit, low green towers."
-  },
-  {
-    "id": "FM-004",
-    "title": "Vertical Village",
-    "category": "concept",
-    "status": "live",
-    "poster": "/images/c-tower.webp",
-    "full": "/images/c-tower.webp",
-    "alt": "A residential green megastructure with cascading planted terraces lit at dusk.",
-    "blurb": "A residential megastructure of cascading planted terraces."
-  },
-  {
-    "id": "FM-005",
-    "title": "The Interchange",
-    "category": "concept",
-    "status": "live",
-    "poster": "/images/c-transit.webp",
-    "full": "/images/c-transit.webp",
-    "alt": "The interior of a future transit hall beneath a vaulted living roof of plants.",
-    "blurb": "A transit hall beneath a living roof."
-  },
-  {
-    "id": "FM-006",
-    "title": "Object Study",
-    "category": "brand",
-    "status": "live",
-    "poster": "/images/c-brand.webp",
-    "full": "/images/c-brand.webp",
-    "alt": "A brand-film still — a sculptural product on a lit pedestal in a dark studio.",
-    "blurb": "A brand film — one form, one light, in the dark."
-  },
-  {
-    "id": "FM-007",
-    "title": "Common Ground",
-    "category": "doc",
-    "status": "live",
-    "poster": "/images/c-doc.webp",
-    "full": "/images/c-doc.webp",
-    "alt": "A documentary still — people tending a community garden at golden hour.",
-    "blurb": "A documentary frame — a community garden at golden hour."
-  },
-  {
-    "id": "FM-008",
-    "title": "Night Signal",
-    "category": "social",
-    "status": "live",
-    "poster": "/images/c-social.webp",
-    "full": "/images/c-social.webp",
-    "alt": "A vertical social cut — a figure on a rooftop above a glowing city at dusk.",
-    "blurb": "A vertical cut — a figure above the glowing city at dusk."
-  }
-]
+{
+  "tracks": [
+    { "key": "product", "label": "Brand & Product", "note": "Films that make a single object impossible to ignore." },
+    { "key": "concept", "label": "Concept / Future", "note": "Places remembered before they are built." }
+  ],
+  "works": [
+    {
+      "id": "FM-101", "track": "product", "category": "Food", "title": "Bittersweet", "year": "2026",
+      "img": "/images/p-food.webp",
+      "alt": "A premium dark chocolate bar on dark stone, a shard breaking away in raking light.",
+      "blurb": "An artisan bar, broken to the light."
+    },
+    {
+      "id": "FM-102", "track": "product", "category": "Beverage", "title": "Effervesce", "year": "2026",
+      "img": "/images/p-drink.webp",
+      "alt": "A frosted beverage bottle beaded with condensation, backlit beside a frozen splash.",
+      "blurb": "Beaded, backlit, one splash held mid-air."
+    },
+    {
+      "id": "FM-103", "track": "product", "category": "Fragrance", "title": "Object Study", "year": "2026",
+      "img": "/images/p-fragrance.webp",
+      "alt": "A faceted glass perfume bottle on a lit pedestal in a dark studio, a faint mist of scent.",
+      "blurb": "A faceted bottle, scent drifting in the dark."
+    },
+    {
+      "id": "FM-104", "track": "product", "category": "Beauty", "title": "Dewpoint", "year": "2026",
+      "img": "/images/p-beauty.webp",
+      "alt": "A skincare serum dropper with a single golden droplet falling onto a wet polished surface.",
+      "blurb": "One drop, falling onto wet light."
+    },
+    {
+      "id": "FM-105", "track": "product", "category": "Tech", "title": "Cold Metal", "year": "2026",
+      "img": "/images/p-tech.webp",
+      "alt": "Minimalist wireless earbuds floating above a dark pedestal, edge-lit brushed metal and glass.",
+      "blurb": "Brushed metal and glass, edge-lit and weightless."
+    },
+    {
+      "id": "FM-106", "track": "product", "category": "Industrial", "title": "The Floor", "year": "2026",
+      "img": "/images/p-industrial.webp",
+      "alt": "A precision robotic arm on a clean production line amid sparks and shafts of light.",
+      "blurb": "A production line in shafts of light and spark."
+    },
+    {
+      "id": "FM-107", "track": "product", "category": "Spirits", "title": "Neat", "year": "2026",
+      "img": "/images/p-spirits.webp",
+      "alt": "A whiskey decanter and glass of amber spirit over a single clear ice sphere, lit from behind.",
+      "blurb": "Amber over a single sphere of ice, lit from behind."
+    },
+    {
+      "id": "FM-108", "track": "product", "category": "Automotive", "title": "Bodywork", "year": "2026",
+      "img": "/images/p-auto.webp",
+      "alt": "A wet curved body panel of a dark luxury car reflecting long studio strip-lights.",
+      "blurb": "A wet bodyline tracing studio light in the dark."
+    },
+
+    {
+      "id": "FM-001", "track": "concept", "category": "Concept", "title": "The Commons", "year": "2026",
+      "img": "/images/c-plaza.webp",
+      "alt": "A civic plaza reclaimed as terraced gardens and water channels at golden hour.",
+      "blurb": "A plaza reclaimed as terraced gardens and water."
+    },
+    {
+      "id": "FM-002", "track": "concept", "category": "Concept", "title": "The Market Hall", "year": "2026",
+      "img": "/images/c-market.webp",
+      "alt": "A grand market hall reborn as a vertical farm, green walls under a glass roof.",
+      "blurb": "A market reborn as a vertical farm under glass."
+    },
+    {
+      "id": "FM-003", "track": "concept", "category": "Concept", "title": "The Waterfront", "year": "2026",
+      "img": "/images/c-waterfront.webp",
+      "alt": "A regenerated river waterfront at sunset with wetlands, an elevated line, and low green towers.",
+      "blurb": "A river's edge regrown — wetlands, transit, towers."
+    },
+    {
+      "id": "FM-004", "track": "concept", "category": "Concept", "title": "Vertical Village", "year": "2026",
+      "img": "/images/c-tower.webp",
+      "alt": "A residential green megastructure with cascading planted terraces lit at dusk.",
+      "blurb": "A megastructure of cascading planted terraces."
+    },
+    {
+      "id": "FM-005", "track": "concept", "category": "Concept", "title": "The Interchange", "year": "2026",
+      "img": "/images/c-transit.webp",
+      "alt": "The interior of a future transit hall beneath a vaulted living roof of plants.",
+      "blurb": "A transit hall beneath a living roof."
+    }
+  ]
+}
