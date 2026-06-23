@@ -11,3 +11,8 @@ images/gen-demos
 .assetsignore
 wrangler.jsonc
 images/gen-products
+overview
+*.pdf
+.env
+.env.local
+.DS_Store

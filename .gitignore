@@ -11,3 +11,5 @@ dist/
 images/gen-products/
 # internal project docs — kept out of this PUBLIC repo
 overview/
+# generated public deploy surface (rebuild with ./build_dist.sh)
+dist/
