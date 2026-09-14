@@ -121,7 +121,7 @@
     lbStage.innerHTML = '<img src="' + esc(item.img) + '" alt="' + esc(item.alt || item.title) + '">';
     lbCap.innerHTML =
       "<b>" + esc(item.id) + '</b><span class="ttl">' + esc(item.title) + "</span>" +
-      (item.blurb ? "<span>— " + esc(item.blurb) + "</span>" : "");
+      (item.blurb ? "<span>" + esc(item.blurb) + "</span>" : "");
     if (typeof lb.showModal === "function") { if (!lb.open) lb.showModal(); }
     else lb.setAttribute("open", "");
   }
@@ -157,7 +157,7 @@
         say("Add your name, email, and a line about the project."); return;
       }
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val("reply_to"))) {
-        say("That email doesn't look right — check it and resend."); return;
+        say("That email doesn't look right. Check it and resend."); return;
       }
       if (ejsReady) {
         btn.disabled = true; say("Sending…");
@@ -178,7 +178,7 @@
         "Budget: " + val("budget") + "\n\n" +
         val("message");
       var href = "mailto:hello@futuristamantes.com" +
-        "?subject=" + encodeURIComponent("New commission — " + val("from_name")) +
+        "?subject=" + encodeURIComponent("New commission: " + val("from_name")) +
         "&body=" + encodeURIComponent(body);
       window.location.href = href;
       say("Opening your email app to send. Prefer to copy us directly? hello@futuristamantes.com");
