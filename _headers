@@ -4,4 +4,4 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://stats.iswain.dev; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://stats.iswain.dev; font-src 'self'; connect-src 'self' https://stats.iswain.dev https://api.emailjs.com; form-action 'self'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://stats.iswain.dev https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://stats.iswain.dev; font-src 'self'; connect-src 'self' https://stats.iswain.dev https://api.emailjs.com https://cloudflareinsights.com; form-action 'self'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'; upgrade-insecure-requests
