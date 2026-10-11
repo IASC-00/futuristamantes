@@ -231,6 +231,15 @@ em{font-style:italic}
   .form-fallback{margin-left:0}
 }
 
+/* ── touch: every tap target at least 44px on phones and tablets ──
+   Invisible ::after tap areas, so nothing moves visually. */
+@media(max-width:1023px){
+  .bar .mark,.form-fallback a,.footer-bottom a{position:relative}
+  .bar .mark::after,.form-fallback a::after,.footer-bottom a::after{
+    content:"";position:absolute;left:-6px;right:-6px;top:50%;height:44px;transform:translateY(-50%)}
+  .chip{min-height:44px}
+}
+
 /* ── reduced motion ── */
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}

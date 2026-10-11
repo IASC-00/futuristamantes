@@ -28,6 +28,11 @@ cp fonts/archivo-var.woff2 \
 # Third-party vendored JS
 cp vendor/emailjs.min.js dist/vendor/
 
+# Homepage intro: controller + 3D scene, and Three.js r169 (MIT) for it
+mkdir -p dist/intro dist/vendor/three
+cp intro/intro.css intro/intro.js intro/intro3d.js dist/intro/
+cp vendor/three/three.module.min.js vendor/three/RoomEnvironment.js vendor/three/LICENSE dist/vendor/three/
+
 # Images: hero, social card, concept stills (c-*), product stills (p-*).
 # NEVER copy images/gen, images/gen-demos, images/gen-products (FLUX source PNGs).
 cp images/hero.webp images/og.jpg dist/images/
