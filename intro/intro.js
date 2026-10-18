@@ -1,21 +1,26 @@
 /* Futuristamantes homepage intro: controller.
+   The archive after hours: a drawer of plates riffles to FM-000, a blank print that develops in
+   a projector beam while the room lights come up, then lands on the page's hero plate.
    Decides whether the intro plays (homepage, first visit in this tab, no #link, no reduced
    motion), covers the first paint, tries the 3D scene (intro3d.js, loaded only now) and falls
    back to a flat version of the same idea when WebGL is missing, fails, or runs slowly.
-   Skip button + Esc end it at once. ?introtest=1 exposes window.__introSeek(seconds). */
+   Skip button + Esc end it at once.
+   ?introtest=1  exposes window.__introSeek(seconds) (no autoplay)
+   ?introtest=rt plays in real time on any visit (for recordings); ?introtest=2d the same, flat */
 (function () {
   "use strict";
   var w = window, doc = document, html = doc.documentElement;
   var KEY = "fiIntroSeen";
   var Q = w.location.search;
-  var TEST = /[?&]introtest=1/.test(Q);
+  var TEST = /[?&]introtest=1(&|$)/.test(Q);
+  var RT = /[?&]introtest=(rt|2d)(&|$)/.test(Q);
   var GUARD = !/[?&]introguard=0/.test(Q) && !TEST;
-  var FORCE2D = /[?&]intro2d=1/.test(Q);
-  var DUR3D = 5.0, DUR2D = 3.6, LOAD_LIMIT = 2600, FAILSAFE = 9000;
+  var FORCE2D = /[?&](intro2d=1|introtest=2d)(&|$)/.test(Q);
+  var DUR3D = 5.6, DUR2D = 4.6, LOAD_LIMIT = 2600, FAILSAFE = 9500;
 
   function store(f) { try { return f(); } catch (e) { return null; } }
   function shouldRun() {
-    if (TEST) return true;
+    if (TEST || RT) return true;
     var p = w.location.pathname;
     if (p !== "/" && p !== "/index.html") return false;
     if (w.location.hash && w.location.hash.length > 1) return false;
@@ -24,10 +29,10 @@
     return true;
   }
   if (!shouldRun()) return;
-  if (!TEST) store(function () { w.sessionStorage.setItem(KEY, "1"); });
+  if (!TEST && !RT) store(function () { w.sessionStorage.setItem(KEY, "1"); });
   html.classList.add("fi-intro-on", "fi-intro-hold");
 
-  var root, host, skip, ctrl = null, mode = "", ended = false, raf = 0, last = 0, clock = 0;
+  var root, host, vig, skip, ctrl = null, mode = "", ended = false, raf = 0, last = 0, clock = 0;
   var visible = 0, visTimer = 0, loadTimer = 0, inerted = [];
 
   function release() { html.classList.remove("fi-intro-hold"); }
@@ -49,11 +54,14 @@
   function onKey(e) { if (e.key === "Escape") { e.preventDefault(); finish(); } }
   function stop(e) { if (!ended) e.preventDefault(); }
 
-  /* the overlay's paper fades so the page shows through while the plate lands */
-  function fade(t, a, b) {
-    var f = Math.min(1, Math.max(0, (t - a) / (b - a)));
-    root.style.backgroundColor = "rgba(234,237,241," + (1 - f).toFixed(3) + ")";
+  /* the room: dark archive, lights up to the page's paper, then the overlay lets the page through */
+  function room(rgb, alpha, dark, vigOn) {
+    root.style.backgroundColor = "rgba(" + rgb.join(",") + "," + alpha.toFixed(3) + ")";
+    vig.style.opacity = vigOn === false ? "0" : (dark * alpha).toFixed(3);   // 3D draws its own
+    root.classList.toggle("fi-lit", dark < 0.5);
   }
+  function mix(a, b, k) { return a.map(function (v, i) { return Math.round(v + (b[i] - v) * k); }); }
+  var DARK = [12, 15, 20], PAPER = [234, 237, 241];
 
   function mount() {
     if (ended || root) return;
@@ -62,13 +70,18 @@
     host = doc.createElement("div");
     host.setAttribute("aria-hidden", "true");
     host.style.cssText = "position:absolute;inset:0";
+    vig = doc.createElement("div");
+    vig.className = "fi-vig";
+    vig.setAttribute("aria-hidden", "true");
     skip = doc.createElement("button");
     skip.type = "button";
     skip.className = "fi-skip";
     skip.textContent = "Skip intro";
     skip.addEventListener("click", finish);
     root.appendChild(host);
+    root.appendChild(vig);
     root.appendChild(skip);
+    room(DARK, 1, 1);
     for (var i = 0; i < doc.body.children.length; i++) {
       var n = doc.body.children[i];
       if (!n.hasAttribute("inert")) { n.setAttribute("inert", ""); inerted.push(n); }
@@ -79,7 +92,7 @@
     w.addEventListener("wheel", stop, { passive: false });
     w.addEventListener("touchmove", stop, { passive: false });
     try { skip.focus({ preventScroll: true }); } catch (e) { /* old browsers */ }
-    if (!TEST) {
+    if (!TEST && !RT) {
       visTimer = setInterval(function () {
         if (!doc.hidden) visible += 250;
         if (visible >= FAILSAFE) finish();
@@ -92,7 +105,7 @@
       return m.create(host, { target: heroTarget, test: TEST }).then(function (c) {
         if (ended || mode === "2d") { c.dispose(); return; }
         clearTimeout(loadTimer);
-        ctrl = c; mode = "3d";
+        ctrl = c; mode = "3d"; w.__introTier = c.tier; w.__introMode = mode;
         c.onLost(function () { if (mode === "3d") fail3D(); });
         run3D();
       });
@@ -116,7 +129,9 @@
     if (!img) return null;
     var r = img.getBoundingClientRect();
     if (r.width < 20 || r.top > w.innerHeight * 0.8 || r.bottom < 0) return null;
-    return { x: r.left, y: r.top, w: r.width, h: r.height, vw: w.innerWidth, vh: w.innerHeight };
+    var tab = doc.querySelector(".plate-hero .tab"), tr = tab ? tab.getBoundingClientRect() : null;
+    return { x: r.left, y: r.top, w: r.width, h: r.height, vw: w.innerWidth, vh: w.innerHeight,
+      tw: tr ? tr.width : 181, th: tr ? tr.height : 32 };
   }
 
   function fail3D() {
@@ -128,8 +143,9 @@
   }
 
   function apply3D(t) {
-    fade(t, 4.15, 4.95);
-    if (t >= 4.3) release();
+    var b = ctrl.backdrop(t);
+    room(b.rgb, b.alpha, b.dark, false);
+    if (t >= 4.75) release();
   }
 
   function run3D() {
@@ -156,35 +172,39 @@
     raf = requestAnimationFrame(tick);
   }
 
-  /* ---------------- 2D fallback: the same catalogue, flat ---------------- */
+  /* ---------------- 2D fallback: the same drawer, flat ---------------- */
   var PLATES = [
     ["/images/p-tech.webp", "FM-105"], ["/images/p-beauty.webp", "FM-104"],
-    ["/images/p-fragrance.webp", "FM-103"], ["/images/hero.webp", "FM-000 · Establishing"],
-    ["/images/p-food.webp", "FM-101"], ["/images/c-waterfront.webp", "FM-003"]
+    ["/images/p-fragrance.webp", "FM-103"], ["/images/p-food.webp", "FM-101"],
+    ["/images/c-waterfront.webp", "FM-003"], ["/images/hero.webp", "FM-000 · Establishing"],
+    ["/images/p-industrial.webp", "FM-106"]
   ];
-  var cards2d = [], HERO2D = 3;
+  var cards2d = [], HERO2D = 5, paper2d = null, beam2d = null, line2d = null;
   function start2D() {
     if (ended || mode === "2d") return;
     clearTimeout(loadTimer);
-    mode = "2d";
+    mode = "2d"; w.__introMode = mode;
     while (host.firstChild) host.removeChild(host.firstChild);
     var wrap = doc.createElement("div");
     wrap.className = "fi2d";
-    var vw = w.innerWidth, vh = w.innerHeight, portrait = vw / vh < 0.8;
-    var pw = portrait ? vw * 0.5 : Math.min(vw * 0.2, 300), ph = pw * 0.75;
+    line2d = doc.createElement("div"); line2d.className = "fi2d-line";
+    beam2d = doc.createElement("div"); beam2d.className = "fi2d-beam";
+    wrap.appendChild(line2d);
     cards2d = PLATES.map(function (p, i) {
       var el = doc.createElement("div");
       el.className = "fi2d-plate";
-      el.style.width = pw + "px"; el.style.height = ph + "px";
-      el.style.marginLeft = -pw / 2 + "px"; el.style.marginTop = -ph / 2 + "px";
       var img = doc.createElement("img");
       img.alt = ""; img.decoding = "async"; img.src = p[0];
       var tab = doc.createElement("span");
       tab.className = "fi2d-tab"; tab.textContent = p[1];
-      el.appendChild(img); el.appendChild(tab);
-      wrap.appendChild(el);
+      el.appendChild(img);
+      if (i === HERO2D) { paper2d = doc.createElement("div"); paper2d.className = "fi2d-paper"; el.appendChild(paper2d); }
+      el.appendChild(tab);
       return el;
     });
+    // the back of the drawer is drawn first so the front plates sit over it
+    for (var i = cards2d.length - 1; i >= 0; i--) wrap.appendChild(cards2d[i]);
+    wrap.appendChild(beam2d);
     host.appendChild(wrap);
     if (TEST) { exposeSeek(); seek(0); return; }
     clock = 0; last = 0;
@@ -199,42 +219,56 @@
     }
     raf = requestAnimationFrame(tick);
   }
-  function ease(x) { x = Math.min(1, Math.max(0, x)); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function cl(x) { return Math.min(1, Math.max(0, x)); }
+  function ease(x) { x = cl(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function out3(x) { x = cl(x); return 1 - Math.pow(1 - x, 3); }
   function apply2D(t) {
-    var vw = w.innerWidth, portrait = vw / w.innerHeight < 0.8;
-    var gap = (portrait ? vw * 0.56 : Math.min(vw * 0.23, 340));
-    var slide = ease(t / 1.9);                       // the row glides past
-    var pull = ease((t - 1.5) / 0.9);                // FM-000 comes forward
-    var dev = ease((t - 1.9) / 0.9);                 // and develops to colour
-    var land = ease((t - 2.55) / 0.75);              // then lands on the page's hero plate
-    var tg = heroTarget(), pw0 = cards2d[HERO2D] ? cards2d[HERO2D].offsetWidth : 1;
+    var vw = w.innerWidth, vh = w.innerHeight, portrait = vw / vh < 0.8;
+    var pw = portrait ? vw * 0.62 : Math.min(vw * 0.3, 420), ph = pw * 0.75;
+    var cur = HERO2D * out3((t - 0.35) / 1.3);           // riffle down the drawer
+    var lift = out3((t - 1.55) / 0.75);                  // FM-000 comes up out of it
+    var dev = ease((t - 2.0) / 0.75);                    // develops: shadows first
+    var col = ease((t - 2.35) / 0.7);                    // then colour
+    var lit = ease((t - 2.65) / 0.7);                    // the room lights come up
+    var land = ease((t - 2.95) / 0.75);                  // and it lands on the page
+    var tg = heroTarget();
+    var stageW = portrait ? vw * 0.84 : Math.min(vw * 0.5, 700), stageS = stageW / pw;
     cards2d.forEach(function (el, i) {
-      var off = (i - HERO2D) * gap + (1 - slide) * gap * 2.2;
-      var face = Math.max(-1, Math.min(1, off / (gap * 1.4)));
-      var hero = i === HERO2D;
-      var s = hero ? 1 + pull * (portrait ? 0.45 : 0.9) : 1 - pull * 0.15;
-      var op = Math.min(1, t / 0.35) * (hero ? 1 : 1 - pull);
-      var tx = hero ? off * (1 - pull) : off * (1 + pull * 0.4), ty = 0;
+      el.style.width = pw + "px"; el.style.height = ph + "px";
+      el.style.marginLeft = -pw / 2 + "px"; el.style.marginTop = -ph / 2 + "px";
+      var depth = i - cur, hero = i === HERO2D;
+      var tip = i < HERO2D ? cl(cur - i + 0.15) : 0;
+      var ty = depth * -ph * 0.11 + ph * 0.2, sc = Math.pow(0.93, Math.max(-1, depth));
+      var rx = tip * 78, tx = 0, op = Math.min(1, t / 0.4) * (1 - lift * (hero ? 0 : 1));
       if (hero) {
+        ty = lerp2(ty, -ph * 0.05, lift) - Math.sin(Math.min(1, lift) * Math.PI) * ph * 0.12;
+        sc = lerp2(sc, stageS, lift);
         if (tg) {
-          tx += (tg.x + tg.w / 2 - tg.vw / 2 - tx) * land;
-          ty = (tg.y + tg.h / 2 - tg.vh / 2) * land;
-          s += (tg.w / pw0 - s) * land;
+          tx = (tg.x + tg.w / 2 - vw / 2) * land;
+          ty = lerp2(ty, tg.y + tg.h / 2 - vh / 2, land);
+          sc = lerp2(sc, tg.w / pw, land);
         }
-        op *= 1 - ease((t - 3.3) / 0.25);
+        op = Math.min(1, t / 0.4) * (1 - ease((t - 4.15) / 0.3));
       }
       el.style.opacity = op.toFixed(3);
-      el.style.transform = "translate(" + tx.toFixed(1) + "px," + ty.toFixed(1) +
-        "px) rotateY(" + (face * -62 * (hero ? 1 - pull : 1)).toFixed(1) + "deg) scale(" + s.toFixed(3) + ")";
-      el.style.zIndex = hero ? 2 : 1;
+      el.style.transform = "translate(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px) scale(" + sc.toFixed(4) +
+        ") rotateX(" + rx.toFixed(1) + "deg)";
+      el.style.zIndex = hero ? 20 : 10 - i;
+      el.style.filter = hero ? "none" : "brightness(" + (0.55 + 0.45 * Math.max(0, 1 - Math.abs(depth) * 0.5)).toFixed(3) + ")";
     });
     var heroImg = cards2d[HERO2D] && cards2d[HERO2D].firstChild;
-    if (heroImg) heroImg.style.filter = dev <= 0 ? "var(--duo)" : (dev >= 1 ? "none" :
-      "grayscale(" + (1 - dev) + ") contrast(" + (1 + 0.32 * (1 - dev)) + ") sepia(" + (0.6 * (1 - dev)) +
-      ") hue-rotate(" + (186 * (1 - dev)) + "deg) saturate(" + (1 + (1 - dev)) + ")");
-    fade(t, 2.85, 3.55);
-    if (t >= 2.9) release();
+    if (heroImg) heroImg.style.filter = col >= 1 ? "none" :
+      "grayscale(" + (1 - col) + ") contrast(" + (1 + 0.32 * (1 - col)) + ") sepia(" + (0.6 * (1 - col)) +
+      ") hue-rotate(" + (186 * (1 - col)) + "deg) saturate(" + (1 + (1 - col)) + ")";
+    if (paper2d) paper2d.style.opacity = (1 - dev).toFixed(3);
+    line2d.style.transform = "scaleX(" + out3(t / 0.8).toFixed(3) + ")";
+    line2d.style.opacity = (Math.min(1, t / 0.15) * (1 - cl((t - 1.4) / 0.6))).toFixed(3);
+    beam2d.style.opacity = (cl((t - 1.7) / 0.4) * (1 - lit)).toFixed(3);
+    var a = 1 - ease((t - 3.75) / 0.5);
+    room(mix(DARK, PAPER, lit), a, 1 - lit);
+    if (t >= 3.7) release();
   }
+  function lerp2(a, b, k) { return a + (b - a) * k; }
 
   /* ---------------- test hook ---------------- */
   function seek(t) {
