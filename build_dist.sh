@@ -32,6 +32,8 @@ cp vendor/emailjs.min.js dist/vendor/
 mkdir -p dist/intro dist/vendor/three
 cp intro/intro.css intro/intro.js intro/intro3d.js dist/intro/
 cp vendor/three/three.module.min.js vendor/three/RoomEnvironment.js vendor/three/LICENSE dist/vendor/three/
+# intro3d.js imports the post-processing passes + shaders from here; without it production falls back to 2D
+mkdir -p dist/vendor/three/jsm && cp -r vendor/three/jsm/. dist/vendor/three/jsm/
 
 # Images: hero, social card, concept stills (c-*), product stills (p-*).
 # NEVER copy images/gen, images/gen-demos, images/gen-products (FLUX source PNGs).

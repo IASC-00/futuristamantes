@@ -238,7 +238,7 @@ export async function create(host, opts) {
   const HIGH = !touch && !small && (navigator.hardwareConcurrency || 4) >= 4;   // quality tier
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
-  const PR = Math.min(devicePixelRatio || 1, HIGH ? 2 : 1.5);
+  const PR = Math.min(devicePixelRatio || 1, 1.5);   // both tiers: 2x buys little under DOF + bloom
   renderer.setPixelRatio(PR);
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -315,10 +315,6 @@ export async function create(host, opts) {
   const wl = new THREE.Mesh(wallGeo, trayMat), wr = new THREE.Mesh(wallGeo, trayMat);
   wl.position.set(-(PW / 2 + 0.15), 0.17, floor.position.z); wr.position.set(PW / 2 + 0.15, 0.17, floor.position.z);
   wl.receiveShadow = wr.receiveShadow = true;
-  const rodGeo = keep(new THREE.CylinderGeometry(0.012, 0.012, len, 10));
-  const rodMat = keep(new THREE.MeshStandardMaterial({ color: 0xb9b2a4, roughness: 0.25, metalness: 0.95, transparent: true }));
-  const rod = new THREE.Mesh(rodGeo, rodMat);
-  rod.rotation.x = Math.PI / 2; rod.position.set(0, 0.07, floor.position.z);
   tray.add(floor, wl, wr);
   scene.add(tray);
 
@@ -679,7 +675,7 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
     });
     [boxI, photoI, backI, tabI].forEach((m) => { m.instanceMatrix.needsUpdate = true; });
     const o = 1 - away;
-    [sideMat, inkMat, otherPhotoMat, backMat, tabMat, trayMat, rodMat].forEach((m) => { m.opacity = o; });
+    [sideMat, inkMat, otherPhotoMat, backMat, tabMat, trayMat].forEach((m) => { m.opacity = o; });
     const vis = o > 0.003;
     boxI.visible = photoI.visible = backI.visible = tabI.visible = tray.visible = vis;
 

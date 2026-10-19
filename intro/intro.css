@@ -32,7 +32,8 @@ html.fi-intro-on .plate-hero img { transition: none; filter: var(--duo-off); }
   color: var(--paper, #EAEDF1); background: var(--ink, #15181D); border: 0; cursor: pointer;
   box-shadow: inset 0 0 0 1px rgba(234, 237, 241, .28); transition: opacity .4s, box-shadow .4s;
 }
-.fi-intro.fi-lit .fi-skip { opacity: 0; pointer-events: none; box-shadow: none; }
+.fi-intro.fi-lit .fi-skip { opacity: 0; pointer-events: none; box-shadow: none; visibility: hidden; transition: opacity .4s, box-shadow .4s, visibility 0s .4s; }
+.fi-intro:focus { outline: none; }
 .fi-intro .fi-skip:focus-visible { outline: 3px solid var(--accent, #2233E6); outline-offset: 3px; }
 /* Skip holds focus from the start; the ring shows once a key is pressed, not over the whole film */
 .fi-intro:not(.fi-kbd) .fi-skip:focus-visible { outline: none; }

@@ -16,13 +16,13 @@
   var RT = /[?&]introtest=(rt|2d)(&|$)/.test(Q);
   var GUARD = !/[?&]introguard=0/.test(Q) && !TEST;
   var FORCE2D = /[?&](intro2d=1|introtest=2d)(&|$)/.test(Q);
-  var DUR3D = 4.3, REL3D = 3.25, DOCK3D = 3.92, DUR2D = 4.1, LOAD_LIMIT = 2600, FAILSAFE = 9500;   // 3D values come from intro3d.js
+  var DUR3D = 4.3, REL3D = 3.25, DOCK3D = 3.92, DUR2D = 4.1, LOAD_LIMIT = 2600, FAILSAFE = 7500;   // 3D values come from intro3d.js
 
   function store(f) { try { return f(); } catch (e) { return null; } }
   function shouldRun() {
-    if (TEST || RT) return true;
     var p = w.location.pathname;
-    if (p !== "/" && p !== "/index.html") return false;
+    if (p !== "/" && p !== "/index.html") return false;   // test hooks too: homepage only
+    if (TEST || RT) return true;
     if (w.location.hash && w.location.hash.length > 1) return false;
     if (w.matchMedia && w.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
     if (store(function () { return w.sessionStorage.getItem(KEY); })) return false;
@@ -57,8 +57,8 @@
     }
   }
   function onKey(e) {
-    if (e.key === "Escape") { e.preventDefault(); finish(); return; }
     if (root) root.classList.add("fi-kbd");
+    if (e.key === "Escape") { e.preventDefault(); finish(); }
   }
   function stop(e) { if (!ended) e.preventDefault(); }
 
@@ -66,7 +66,10 @@
   function room(rgb, alpha, dark, vigOn) {
     root.style.backgroundColor = "rgba(" + rgb.join(",") + "," + alpha.toFixed(3) + ")";
     vig.style.opacity = vigOn === false ? "0" : (dark * alpha).toFixed(3);   // 3D draws its own
-    root.classList.toggle("fi-lit", dark < 0.5);
+    var lit = dark < 0.5;
+    // Skip fades out (then visibility:hidden in CSS); focus never stays on an invisible control
+    if (lit && doc.activeElement === skip) try { root.focus({ preventScroll: true }); } catch (e) { root.focus(); }
+    root.classList.toggle("fi-lit", lit);
   }
   function mix(a, b, k) { return a.map(function (v, i) { return Math.round(v + (b[i] - v) * k); }); }
   var DARK = [12, 15, 20], PAPER = [234, 237, 241];
@@ -75,6 +78,7 @@
     if (ended || root) return;
     root = doc.createElement("div");
     root.className = "fi-intro";
+    root.tabIndex = -1;   // holds keyboard focus once Skip fades, so Esc and the exit hand-off still work
     host = doc.createElement("div");
     host.setAttribute("aria-hidden", "true");
     host.style.cssText = "position:absolute;inset:0";
@@ -101,7 +105,7 @@
     root.addEventListener("wheel", stop, { passive: false });
     root.addEventListener("touchmove", stop, { passive: false });
     try { skip.focus({ preventScroll: true }); } catch (e) { /* old browsers */ }
-    if (!TEST && !RT) {
+    if (!TEST) {   // ?introtest=rt gets the failsafe too; only the seek hook (no autoplay) does without
       visTimer = setInterval(function () {
         if (!doc.hidden) visible += 250;
         if (visible >= FAILSAFE) finish();
@@ -167,18 +171,23 @@
     clock = 0; last = 0;
     function tick(now) {
       if (ended || mode !== "3d") return;
-      if (doc.hidden) { last = 0; raf = requestAnimationFrame(tick); return; }
+      if (doc.hidden) { last = 0; slowMs = slowN = 0; raf = requestAnimationFrame(tick); return; }
       if (last) {
         var dt = Math.min(0.1, (now - last) / 1000);
         clock += dt; frames++;
-        if (GUARD && frames > 3 && clock < 0.9) {
+        // slow-frame guard over the whole run, in windows of 8 frames: under ~20 fps the 3D gives
+        // way to the flat version before the hand-off, and simply ends after it
+        if (GUARD && frames > 3) {
           slowMs += now - last; slowN++;
-          if (slowN >= 8 && slowMs / slowN > 50) return fail3D();
+          if (slowN >= 8) {
+            if (slowMs / slowN > 50) return clock < REL3D ? fail3D() : finish();
+            slowMs = slowN = 0;
+          }
         }
       }
       last = now;
-      ctrl.render(clock);
-      apply3D(clock);
+      try { ctrl.render(clock); apply3D(clock); }
+      catch (e) { return clock < REL3D ? fail3D() : finish(); }
       if (clock >= DUR3D) return finish();
       raf = requestAnimationFrame(tick);
     }
@@ -226,7 +235,7 @@
       if (doc.hidden) { last = 0; raf = requestAnimationFrame(tick); return; }
       if (last) clock += Math.min(0.1, (now - last) / 1000);
       last = now;
-      apply2D(clock);
+      try { apply2D(clock); } catch (e) { return finish(); }
       if (clock >= DUR2D) return finish();
       raf = requestAnimationFrame(tick);
     }
