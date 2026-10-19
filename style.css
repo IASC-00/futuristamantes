@@ -104,7 +104,7 @@ em{font-style:italic}
 .loaded .plate-hero img{filter:var(--duo-off)}
 .tab{position:absolute;top:0;left:0;background:var(--ink);color:var(--paper);
   font-family:var(--sans);font-weight:600;font-size:.75rem;letter-spacing:.08em;
-  text-transform:uppercase;padding:.42rem .72rem}
+  text-transform:uppercase;padding:.42rem .72rem;z-index:1}
 .plate-cap{display:flex;gap:.9rem;align-items:baseline;flex-wrap:wrap;margin-top:.85rem;
   font-size:.85rem;letter-spacing:.01em;color:var(--ink-soft)}
 .plate-cap b{color:var(--accent);font-weight:600}

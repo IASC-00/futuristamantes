@@ -16,7 +16,7 @@
   var RT = /[?&]introtest=(rt|2d)(&|$)/.test(Q);
   var GUARD = !/[?&]introguard=0/.test(Q) && !TEST;
   var FORCE2D = /[?&](intro2d=1|introtest=2d)(&|$)/.test(Q);
-  var DUR3D = 5.6, DUR2D = 4.6, LOAD_LIMIT = 2600, FAILSAFE = 9500;
+  var DUR3D = 4.3, REL3D = 3.25, DOCK3D = 3.92, DUR2D = 4.1, LOAD_LIMIT = 2600, FAILSAFE = 9500;   // 3D values come from intro3d.js
 
   function store(f) { try { return f(); } catch (e) { return null; } }
   function shouldRun() {
@@ -36,6 +36,7 @@
   var visible = 0, visTimer = 0, loadTimer = 0, inerted = [];
 
   function release() { html.classList.remove("fi-intro-hold"); }
+  function dock(on) { html.classList.toggle("fi-docked", on); }
 
   function finish() {
     if (ended) return;
@@ -44,14 +45,21 @@
     clearInterval(visTimer); clearTimeout(loadTimer);
     if (ctrl) { try { ctrl.dispose(); } catch (e) { /* already gone */ } ctrl = null; }
     release();
-    html.classList.remove("fi-intro-on", "fi-mounted");
+    html.classList.remove("fi-intro-on", "fi-mounted", "fi-docked");
     doc.removeEventListener("keydown", onKey, true);
-    w.removeEventListener("wheel", stop, { passive: false });
-    w.removeEventListener("touchmove", stop, { passive: false });
     inerted.forEach(function (n) { n.removeAttribute("inert"); });
+    var hadFocus = root && root.contains(doc.activeElement), kbd = root && root.classList.contains("fi-kbd");
     if (root && root.parentNode) root.parentNode.removeChild(root);
+    // keyboard users carry on from the top of the page instead of being dropped on <body>
+    if (hadFocus && kbd) {
+      var next = doc.querySelector("a.skip, header a[href], a[href]");
+      if (next) try { next.focus({ preventScroll: true }); } catch (e) { next.focus(); }
+    }
   }
-  function onKey(e) { if (e.key === "Escape") { e.preventDefault(); finish(); } }
+  function onKey(e) {
+    if (e.key === "Escape") { e.preventDefault(); finish(); return; }
+    if (root) root.classList.add("fi-kbd");
+  }
   function stop(e) { if (!ended) e.preventDefault(); }
 
   /* the room: dark archive, lights up to the page's paper, then the overlay lets the page through */
@@ -89,8 +97,9 @@
     doc.body.insertBefore(root, doc.body.firstChild);
     html.classList.add("fi-mounted");
     doc.addEventListener("keydown", onKey, true);
-    w.addEventListener("wheel", stop, { passive: false });
-    w.addEventListener("touchmove", stop, { passive: false });
+    // the overlay covers the viewport; it alone swallows scroll so the hero stays where the plate lands
+    root.addEventListener("wheel", stop, { passive: false });
+    root.addEventListener("touchmove", stop, { passive: false });
     try { skip.focus({ preventScroll: true }); } catch (e) { /* old browsers */ }
     if (!TEST && !RT) {
       visTimer = setInterval(function () {
@@ -106,6 +115,9 @@
         if (ended || mode === "2d") { c.dispose(); return; }
         clearTimeout(loadTimer);
         ctrl = c; mode = "3d"; w.__introTier = c.tier; w.__introMode = mode;
+        if (c.duration) DUR3D = c.duration;
+        if (c.release) REL3D = c.release;
+        if (c.docked) DOCK3D = c.docked;
         c.onLost(function () { if (mode === "3d") fail3D(); });
         run3D();
       });
@@ -128,7 +140,7 @@
     var img = doc.querySelector(".plate-hero img");
     if (!img) return null;
     var r = img.getBoundingClientRect();
-    if (r.width < 20 || r.top > w.innerHeight * 0.8 || r.bottom < 0) return null;
+    if (r.width < 20 || r.top > w.innerHeight - 48 || r.bottom < 0) return null;   // some of it must be on screen
     var tab = doc.querySelector(".plate-hero .tab"), tr = tab ? tab.getBoundingClientRect() : null;
     return { x: r.left, y: r.top, w: r.width, h: r.height, vw: w.innerWidth, vh: w.innerHeight,
       tw: tr ? tr.width : 181, th: tr ? tr.height : 32 };
@@ -145,7 +157,8 @@
   function apply3D(t) {
     var b = ctrl.backdrop(t);
     room(b.rgb, b.alpha, b.dark, false);
-    if (t >= 4.75) release();
+    if (t >= REL3D) release();
+    dock(t >= DOCK3D);
   }
 
   function run3D() {
@@ -248,7 +261,7 @@
           ty = lerp2(ty, tg.y + tg.h / 2 - vh / 2, land);
           sc = lerp2(sc, tg.w / pw, land);
         }
-        op = Math.min(1, t / 0.4) * (1 - ease((t - 4.15) / 0.3));
+        op = Math.min(1, t / 0.4) * (1 - ease((t - 3.75) / 0.3));
       }
       el.style.opacity = op.toFixed(3);
       el.style.transform = "translate(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px) scale(" + sc.toFixed(4) +
@@ -264,9 +277,10 @@
     line2d.style.transform = "scaleX(" + out3(t / 0.8).toFixed(3) + ")";
     line2d.style.opacity = (Math.min(1, t / 0.15) * (1 - cl((t - 1.4) / 0.6))).toFixed(3);
     beam2d.style.opacity = (cl((t - 1.7) / 0.4) * (1 - lit)).toFixed(3);
-    var a = 1 - ease((t - 3.75) / 0.5);
+    var a = 1 - ease((t - 3.3) / 0.45);                  // the page comes through as it docks
     room(mix(DARK, PAPER, lit), a, 1 - lit);
-    if (t >= 3.7) release();
+    if (t >= 3.05) release();
+    dock(t >= 3.7);
   }
   function lerp2(a, b, k) { return a + (b - a) * k; }
 

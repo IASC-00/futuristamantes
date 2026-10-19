@@ -10,6 +10,10 @@ html.fi-intro-on:not(.fi-mounted) body::before {
 }
 /* hold the thesis underline so it draws as the intro lifts, not under it */
 html.fi-intro-hold .thesis .u::after { transform: scaleX(0) !important; }
+/* the page's hero stays hidden while the plate is in flight (no double image as the page comes
+   through), then sits in full colour exactly under the docked plate, so the handoff has no seam */
+html.fi-intro-on:not(.fi-docked) .plate-hero .frame { visibility: hidden; }
+html.fi-intro-on .plate-hero img { transition: none; filter: var(--duo-off); }
 
 .fi-intro {
   position: fixed; inset: 0; z-index: 9999; overflow: hidden;
@@ -17,7 +21,7 @@ html.fi-intro-hold .thesis .u::after { transform: scaleX(0) !important; }
 }
 .fi-intro .fi-vig {
   position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  background: radial-gradient(ellipse 75% 70% at 50% 46%, transparent 45%, rgba(0, 0, 0, .55) 100%);
+  background: radial-gradient(ellipse 75% 70% at 50% 46%, transparent 45%, rgba(0, 0, 0, .35) 100%);
 }
 .fi-intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .fi-intro .fi-skip {
@@ -26,16 +30,18 @@ html.fi-intro-hold .thesis .u::after { transform: scaleX(0) !important; }
   font-family: var(--sans, system-ui, sans-serif); font-weight: 600; font-size: .78rem;
   letter-spacing: .08em; text-transform: uppercase;
   color: var(--paper, #EAEDF1); background: var(--ink, #15181D); border: 0; cursor: pointer;
-  box-shadow: inset 0 0 0 1px rgba(234, 237, 241, .28); transition: box-shadow .4s;
+  box-shadow: inset 0 0 0 1px rgba(234, 237, 241, .28); transition: opacity .4s, box-shadow .4s;
 }
-.fi-intro.fi-lit .fi-skip { box-shadow: none; }
+.fi-intro.fi-lit .fi-skip { opacity: 0; pointer-events: none; box-shadow: none; }
 .fi-intro .fi-skip:focus-visible { outline: 3px solid var(--accent, #2233E6); outline-offset: 3px; }
+/* Skip holds focus from the start; the ring shows once a key is pressed, not over the whole film */
+.fi-intro:not(.fi-kbd) .fi-skip:focus-visible { outline: none; }
 
 /* ---------- 2D fallback (same drawer, flat) ---------- */
 .fi2d { position: absolute; inset: 0; perspective: 1000px; perspective-origin: 50% 20%; }
 .fi2d-plate {
   position: absolute; left: 50%; top: 50%; overflow: hidden;
-  border: 1px solid var(--ink, #15181D); background: #E9E6DF;
+  border: 1px solid var(--ink, #15181D); background: #E6E9EE;
   transform-origin: 50% 100%;
   box-shadow: 0 24px 50px -24px rgba(0, 0, 0, .7);
   opacity: 0;
@@ -44,7 +50,10 @@ html.fi-intro-hold .thesis .u::after { transform: scaleX(0) !important; }
   width: 100%; height: 100%; object-fit: cover; display: block;
   filter: var(--duo, grayscale(1));
 }
-.fi2d-paper { position: absolute; inset: 0; background: #DCD8CE; }
+.fi2d-paper {
+  position: absolute; inset: 0; background: #E3E6EC;
+  box-shadow: inset 0 0 0 10px #E3E6EC, inset 0 0 0 11px rgba(21, 24, 29, .14);
+}
 .fi2d-plate .fi2d-tab {
   position: absolute; top: 0; left: 0; background: var(--ink, #15181D); color: var(--paper, #EAEDF1);
   font-family: var(--sans, system-ui, sans-serif); font-weight: 600; font-size: .75rem;
@@ -52,11 +61,11 @@ html.fi-intro-hold .thesis .u::after { transform: scaleX(0) !important; }
 }
 .fi2d-line {
   position: absolute; left: 12%; right: 12%; top: 22%; height: 2px; z-index: 30;
-  background: linear-gradient(90deg, transparent, #FFE7C6 18%, #FFF6E8 50%, #FFE7C6 82%, transparent);
-  box-shadow: 0 0 18px 3px rgba(255, 220, 170, .45); transform-origin: 50% 50%; opacity: 0;
+  background: linear-gradient(90deg, transparent, #D8E6FF 18%, #F2F7FF 50%, #D8E6FF 82%, transparent);
+  box-shadow: 0 0 18px 3px rgba(180, 210, 255, .42); transform-origin: 50% 50%; opacity: 0;
 }
 .fi2d-beam {
-  position: absolute; inset: -20% -10% 0 30%; z-index: 25; pointer-events: none; opacity: 0;
-  background: conic-gradient(from 222deg at 92% 0%, transparent 0deg, rgba(255, 236, 205, .16) 12deg, rgba(255, 244, 228, .28) 22deg, rgba(255, 236, 205, .16) 32deg, transparent 44deg);
+  position: absolute; inset: 0; z-index: 25; pointer-events: none; opacity: 0;
+  background: conic-gradient(from 215deg at 88% -8%, transparent 0deg, rgba(210, 228, 255, .14) 14deg, rgba(235, 244, 255, .26) 24deg, rgba(210, 228, 255, .14) 34deg, transparent 48deg);
   mix-blend-mode: screen;
 }

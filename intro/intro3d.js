@@ -1,7 +1,7 @@
 /* Futuristamantes homepage intro, 3D scene (Three.js r169 + its jsm post-processing, self-hosted).
 
    The archive, after hours.
-     1. A strip light draws on over a drawer of catalogue plates (dark room, warm light, dust).
+     1. A strip light draws on over a drawer of catalogue plates (dark room, cool light, dust).
      2. The camera rides a spline down the drawer while the plates riffle forward like cards in a
         file; focus racks plate to plate and the riffle decelerates onto FM-000, a blank sheet.
      3. FM-000 lifts out with weight into a projector beam. The beam locks with a flare and a light
@@ -31,48 +31,53 @@ import { ShaderPass } from "/vendor/three/jsm/postprocessing/ShaderPass.js";
 
 /* ============================== CONFIG ============================== */
 export const CONFIG = {
-  duration: 5.6,                       // seconds; intro.js ends the overlay here
+  duration: 4.3,                       // seconds; intro.js ends the overlay here
   colors: {
     dark: [12, 15, 20],                // the archive at night (sRGB 0-255)
     paper: [234, 237, 241],            // --paper, the page the room lights up to
     ink: "#15181D",                    // --ink: plate frames, tabs
     tabText: "#EAEDF1",
-    board: "#E9E6DF",                  // plate backs (archive board)
-    edge: 0xf1eee8,                    // plate edges (board core)
+    board: "#E6E9EE",                  // plate backs (archive board)
+    edge: 0xeef0f3,                    // plate edges (board core)
     stamp: "#2233E6",                  // --accent, the ARCHIVED stamp on the backs
     tray: 0x1b1f27,
-    photoPaper: [0.86, 0.845, 0.80],   // blank photo paper, linear
-    stripLight: 0xffe9cc,
-    beamLight: 0xfff3e2,
-    beamGlow: [1.0, 0.9, 0.74],
-    dust: [1.0, 0.92, 0.8],
-    streak: [1.0, 0.95, 0.86],
-    chemFront: [1.0, 0.55, 0.25],      // the warm edge of the colour as it spreads
+    photoPaper: [0.88, 0.89, 0.91],    // blank photo paper, linear (cool fibre base)
+    latent: 0.1,                       // the faint rebate rule on the blank sheet, before it develops
+    stripLight: 0xeaf0ff,
+    stripGlow: [0.82, 0.9, 1.0],
+    beamLight: 0xf4f7ff,
+    beamGlow: [0.9, 0.94, 1.0],
+    dust: [0.92, 0.95, 1.0],
+    streak: [0.94, 0.97, 1.0],
+    chemFront: [0.45, 0.6, 1.0],       // the cobalt edge of the colour as it spreads (the page's --duo)
   },
   time: {                              // [start, end] in seconds
-    stripDraw: [0.08, 0.95],
-    riffle: [0.55, 2.2],
-    camera: [0.0, 3.2],                // spline from over the drawer to square on FM-000
-    lift: [2.05, 3.05],
-    beamOn: [2.25, 2.95],
-    beamOff: [3.7, 4.4],
-    flare: 3.0,                        // the beam locking on
-    streak: [2.92, 3.62],
-    develop: [2.85, 3.85],
-    colour: [3.3, 4.25],
-    room: [3.55, 4.45],                // lights up: dark -> paper
-    land: [3.85, 4.85],
-    flat: [4.25, 4.85],                // FM-000 becomes exactly the page's image
-    post: [4.2, 4.85],                 // post effects ease to zero; direct render after
-    overlay: [4.85, 5.35],             // the paper overlay lets the page through
-    vanish: [5.3, 5.6],
+    stripDraw: [0.06, 0.76],
+    riffle: [0.44, 1.76],
+    camera: [0.0, 2.56],               // spline from over the drawer to square on FM-000
+    away: [1.68, 2.48],                // the rest of the drawer drops back into the dark
+    awayPortrait: [1.4, 2.1],          // sooner on a phone, before FM-000 lifts through it
+    lift: [1.64, 2.44],
+    beamOn: [1.8, 2.36],
+    beamOff: [2.96, 3.52],
+    flare: 2.4,                        // the beam locking on
+    streak: [2.34, 2.9],
+    develop: [2.28, 3.08],
+    colour: [2.64, 3.4],
+    room: [2.84, 3.56],                // lights up: dark -> paper
+    post: [2.96, 3.5],                 // post effects ease to zero with the lights; direct render after
+    land: [3.08, 3.92],
+    flat: [3.4, 3.88],                 // FM-000 becomes exactly the page's image
+    overlay: [3.5, 3.95],              // the page comes through while the print is still landing
+    vanish: [3.98, 4.24],
   },
   post: {
     bloom: { strength: 0.6, radius: 0.5, threshold: 1.0 },
     dof: { aperture: 0.009, maxblur: 0.009 },
-    grain: 0.05, vignette: 0.55, aberration: 0.0016, exposure: 1.0,
+    grain: 0.02, vignette: 0.38, aberration: 0.0016, exposure: 1.0,
   },
   light: { strip: 3.6, beam: 6, flare: 10, env: 0.35, stripGlow: 0.35 },
+  portraitTip: 0.7,                    // phones: plates lean less as they riffle, so their backs don't fill the frame
 };
 
 /* ============================== layout constants ============================== */
@@ -325,7 +330,7 @@ export async function create(host, opts) {
     transparent: true, depthWrite: false, ...ADD,
     uniforms: { uA: { value: 0 } },
     vertexShader: "varying vec2 vU; void main(){ vU = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
-    fragmentShader: "uniform float uA; varying vec2 vU; void main(){ float d = abs(vU.y - 0.5) * 2.0; float e = smoothstep(0.0, 0.12, vU.x) * smoothstep(1.0, 0.88, vU.x); float g = exp(-d * d * 18.0) * 0.9 + exp(-d * 5.0) * 0.25; gl_FragColor = vec4(vec3(1.0, 0.86, 0.66) * g * e * uA, 1.0); }",
+    fragmentShader: "uniform float uA; varying vec2 vU; void main(){ float d = abs(vU.y - 0.5) * 2.0; float e = smoothstep(0.0, 0.12, vU.x) * smoothstep(1.0, 0.88, vU.x); float g = exp(-d * d * 18.0) * 0.9 + exp(-d * 5.0) * 0.25; gl_FragColor = vec4(vec3(" + C.stripGlow.join(", ") + ") * g * e * uA, 1.0); }",
   }));
   const haloGeo = keep(new THREE.PlaneGeometry(1, 0.26));
   const halo = new THREE.Mesh(haloGeo, haloMat);
@@ -346,12 +351,12 @@ export async function create(host, opts) {
   const others = [];   // every plate but FM-000, front to back
   for (let i = 0; i < N; i++) if (i !== HERO) others.push(i);
   const labelOf = (i) => (i === HERO ? HERO_LABEL : i < HERO ? FRONT[i][1] : "FM-0" + (10 + i));
-  // photos: 4 x 2 tiles of 640 x 480
-  const photoC = document.createElement("canvas"); photoC.width = 2560; photoC.height = 960;
-  { const g = photoC.getContext("2d"); FRONT.forEach((p, k) => drawCover(g, images[k], (k % 4) * 640, Math.floor(k / 4) * 480, 640, 480)); }
-  // backs: 4 x 4 tiles of 512 x 384
-  const backC = document.createElement("canvas"); backC.width = 2048; backC.height = 1536;
-  { const g = backC.getContext("2d"); others.concat([HERO]).forEach((i, k) => drawBack(g, labelOf(i), grainC, i, (k % 4) * 512, Math.floor(k / 4) * 384, 512, 384)); }
+  // photos: 4 x 2 tiles of 640 x 480, backs: 4 x 4 tiles of 512 x 384 (half that on the low tier)
+  const AQ = HIGH ? 1 : 0.5, PTW = 640 * AQ, PTH = 480 * AQ, BTW = 512 * AQ, BTH = 384 * AQ;
+  const photoC = document.createElement("canvas"); photoC.width = PTW * 4; photoC.height = PTH * 2;
+  { const g = photoC.getContext("2d"); FRONT.forEach((p, k) => drawCover(g, images[k], (k % 4) * PTW, Math.floor(k / 4) * PTH, PTW, PTH)); }
+  const backC = document.createElement("canvas"); backC.width = BTW * 4; backC.height = BTH * 4;
+  { const g = backC.getContext("2d"); others.concat([HERO]).forEach((i, k) => drawBack(g, labelOf(i), grainC, i, (k % 4) * BTW, Math.floor(k / 4) * BTH, BTW, BTH)); }
   // tabs: one row each
   const tabC = document.createElement("canvas"); tabC.width = TAB_TW; tabC.height = TAB_TH * (N + 1);
   const tabW = [];
@@ -413,6 +418,10 @@ export async function create(host, opts) {
   vec3 duo = texture2D( uRamp, vec2( ls, 0.5 ) ).rgb;
   float gr = texture2D( uGrain, vPlain * vec2( 3.0, 2.25 ) ).r;
   vec3 paper = vec3( ${pp} ) * ( 0.93 + 0.09 * gr );
+  // a faint rebate rule, so the blank sheet reads as unexposed paper, not a missing image
+  vec2 eu = min( vPlain, 1.0 - vPlain ) * vec2( 1.333, 1.0 );
+  float rule = 1.0 - smoothstep( 0.0, 0.004, abs( min( eu.x, eu.y ) - 0.045 ) );
+  paper *= 1.0 - ${C.latent.toFixed(3)} * rule * ( 1.0 - smoothstep( 0.0, 0.5, uDev ) );
   // developer: uneven chemical patches; dense shadows come up first, highlights last
   float chem = fiFbm( vPlain * vec2( 5.0, 3.75 ) + 1.7 );
   float dens = 1.0 - ls;
@@ -458,8 +467,8 @@ export async function create(host, opts) {
     scene.add(m); return m;
   };
   const boxI = inst(boxGeo, [sideMat, sideMat, sideMat, sideMat, inkMat, sideMat]);
-  const photoI = inst(faceGeo(), otherPhotoMat, others.map((i) => { const k = i % FRONT.length; return rect((k % 4) * 640, Math.floor(k / 4) * 480, 640, 480, 2560, 960); }));
-  const backI = inst(backGeo(), backMat, others.map((i, k) => rect((k % 4) * 512, Math.floor(k / 4) * 384, 512, 384, 2048, 1536)));
+  const photoI = inst(faceGeo(), otherPhotoMat, others.map((i) => { const k = i % FRONT.length; return rect((k % 4) * PTW, Math.floor(k / 4) * PTH, PTW, PTH, photoC.width, photoC.height); }));
+  const backI = inst(backGeo(), backMat, others.map((i, k) => rect((k % 4) * BTW, Math.floor(k / 4) * BTH, BTW, BTH, backC.width, backC.height)));
   const tabI = inst(tabGeo(), tabMat, others.map((i, k) => rect(0, k * TAB_TH, tabW[k], TAB_TH, TAB_TW, tabC.height)));
   tabI.castShadow = false;
 
@@ -470,7 +479,7 @@ export async function create(host, opts) {
   const hPhoto = new THREE.Mesh(faceGeo(), heroMat);
   hPhoto.position.z = THICK / 2 + 0.0008; hPhoto.receiveShadow = true;
   const hBackGeo = backGeo();
-  { const kk = NO, r = rect((kk % 4) * 512, Math.floor(kk / 4) * 384, 512, 384, 2048, 1536), uv = hBackGeo.attributes.uv;
+  { const kk = NO, r = rect((kk % 4) * BTW, Math.floor(kk / 4) * BTH, BTW, BTH, backC.width, backC.height), uv = hBackGeo.attributes.uv;
     for (let j = 0; j < uv.count; j++) uv.setXY(j, r[0] + uv.getX(j) * r[2], r[1] + uv.getY(j) * r[3]); }
   const hBack = new THREE.Mesh(hBackGeo, heroBackMat);
   hBack.rotation.y = Math.PI; hBack.position.z = -THICK / 2 - 0.0008;
@@ -611,12 +620,18 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
 
   const look = new THREE.Vector3(), tmp = new THREE.Vector3(), dummy = new THREE.Object3D(), mtx = new THREE.Matrix4();
   const focusPt = new THREE.Vector3();
+  let resampled = false;
   function render(t) {
+    if (!resampled && t >= T.land[0] && opts.target) {
+      resampled = true;
+      const tg = opts.target();
+      if (tg) { target = tg; sizeTabs(tg); }
+    }
     const dark = 1 - room(t);
     const bdc = backdrop(t);
     bgCol.setRGB(bdc.rgb[0] / 255, bdc.rgb[1] / 255, bdc.rgb[2] / 255, THREE.SRGBColorSpace);
     scene.fog.color.copy(bgCol);
-    const toF = io(seg(t, [1.95, 3.2]));
+    const toF = io(seg(t, [1.56, T.camera[1]]));
     scene.fog.near = lerp(2.6, 5, toF); scene.fog.far = lerp(7.5, 12, toF);
     scene.environmentIntensity = lerp(0.06, CONFIG.light.env, 1 - dark);
 
@@ -624,10 +639,11 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
     const cur = HERO * out3(seg(t, T.riffle));
     const lift = seg(t, T.lift), liftE = settle(lift);
     const land = io(seg(t, T.land));
-    const away = io(seg(t, [2.1, 3.1]));   // the rest of the drawer drops back into the dark
+    const away = io(seg(t, portrait ? T.awayPortrait : T.away));
+    const tipK = portrait ? CONFIG.portraitTip : 1;
 
     /* camera on its spline; the spline's progress follows the riffle, then rises to the print */
-    const u = clamp(0.06 * seg(t, [0, 0.5]) + 0.69 * out3(seg(t, [0.45, 2.2])) + 0.25 * io(seg(t, [1.95, T.camera[1]])));
+    const u = clamp(0.06 * seg(t, [0, 0.4]) + 0.69 * out3(seg(t, [0.36, 1.76])) + 0.25 * io(seg(t, [1.56, T.camera[1]])));
     camPath.getPoint(u, camera.position);
     camera.position.y += Math.sin(t * 1.1) * 0.012 * (1 - toF);
     lookPath.getPoint(u, look);
@@ -638,11 +654,11 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
     const zf = 0.45, zb = zOf(N - 1) - 0.3, zEnd = lerp(zf, zb, draw), sLen = Math.max(0.001, zf - zEnd);
     stripRig.position.set(-(PW / 2 + 0.28), 1.3, zf - sLen / 2);   // runs along the drawer's left edge, clear of the lens path
     tube.scale.set(1, 1, sLen); halo.scale.set(sLen + 0.1, 1, 1);
-    const stripOn = (0.25 + 0.75 * seg(t, [0.12, 0.8])) * (1 - 0.85 * seg(t, [1.65, 2.3])) * dark;
-    tubeMat.opacity = seg(t, [0.05, 0.2]) * dark * (1 - seg(t, [1.65, 2.1]));
+    const stripOn = (0.25 + 0.75 * seg(t, [0.1, 0.64])) * (1 - 0.85 * seg(t, [1.32, 1.84])) * dark;
+    tubeMat.opacity = seg(t, [0.04, 0.16]) * dark * (1 - seg(t, [1.32, 1.68]));
     stripRig.visible = tubeMat.opacity > 0.003; haloMat.uniforms.uA.value = stripOn * CONFIG.light.stripGlow;
     const zc = zOf(cur);
-    strip.intensity = CONFIG.light.strip * stripOn * draw * (1 - smooth(seg(t, [1.9, 2.35])));
+    strip.intensity = CONFIG.light.strip * stripOn * draw * (1 - smooth(seg(t, [1.52, 1.88])));
     strip.position.set(-0.1, 1.42, zc + 0.55);
     strip.target.position.set(0, 0, zc - 0.25);
 
@@ -650,8 +666,10 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
     others.forEach((i, j) => {
       const jit = Math.sin(i * 12.9898) * 0.5;
       const tip = i < HERO ? smooth(clamp(cur - i + 0.15)) : 0;
-      dummy.position.set(jit * 0.02, -away * 1.1, zOf(i));
-      dummy.rotation.set(i < HERO ? tip * (1.22 + jit * 0.08) : -0.05 - (i - HERO) * 0.01, jit * 0.012, jit * 0.006);
+      // on a phone a plate that has been passed sinks out of the frame instead of lying face-up in it
+      const sink = portrait && i < HERO ? smooth(clamp((cur - i - 0.9) / 1.1)) : 0;
+      dummy.position.set(jit * 0.02, -away * 1.1 - sink * 0.9, zOf(i));
+      dummy.rotation.set(i < HERO ? tip * tipK * (1.22 + jit * 0.08) : -0.05 - (i - HERO) * 0.01, jit * 0.012, jit * 0.006);
       dummy.scale.setScalar(1);
       dummy.updateMatrix();
       boxI.setMatrixAt(j, dummy.matrix);
@@ -675,12 +693,12 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
     hero.position.copy(pos);
     hero.scale.setScalar(s);
     // it comes up tilted back, then squares to the lens; a slow float while it develops
-    const fl = Math.sin(t * 1.4) * 0.03 * (1 - land) * seg(t, [2.9, 3.3]);
+    const fl = Math.sin(t * 1.4) * 0.03 * (1 - land) * seg(t, [2.32, 2.64]);
     hero.rotation.set(-0.22 * (1 - out3(lift)) + fl * 0.4, 0.28 * Math.sin(lift * Math.PI) * (1 - land) + fl * 0.3, -0.03 * Math.sin(lift * Math.PI));
     const vanish = 1 - smooth(seg(t, T.vanish));
     heroMat.opacity = sideHero.opacity = inkHero.opacity = heroTabMat.opacity = heroBackMat.opacity = vanish;
     // the tab is unlit ink: dim it with the room, full value once the lights are up
-    heroTabMat.color.setScalar(lerp(lerp(0.3, 0.8, seg(t, [2.4, 3.0])), 1, 1 - dark));
+    heroTabMat.color.setScalar(lerp(lerp(0.3, 0.8, seg(t, [1.92, 2.4])), 1, 1 - dark));
 
     /* the beam: it finds the print, flares as it locks, then the room light takes over */
     const beamOn = smooth(seg(t, T.beamOn)) * (1 - io(seg(t, T.beamOff)));
@@ -719,10 +737,10 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
       return;
     }
     if (bokeh) {
-      focusPt.set(0, 0.5, zOf(Math.min(HERO, Math.ceil(cur - 0.05))) + 0.02).lerp(tmp.set(hero.position.x, hero.position.y + (PH * s) / 2, hero.position.z), smooth(seg(t, [1.9, 2.7])));
+      focusPt.set(0, 0.5, zOf(Math.min(HERO, Math.ceil(cur - 0.05))) + 0.02).lerp(tmp.set(hero.position.x, hero.position.y + (PH * s) / 2, hero.position.z), smooth(seg(t, [1.52, 2.16])));
       const bu = bokeh.uniforms;
       bu.focus.value = camera.position.distanceTo(focusPt);
-      bu.aperture.value = P.dof.aperture * lerp(1, 0.45, seg(t, [2.6, 3.4])) * post;
+      bu.aperture.value = P.dof.aperture * lerp(1, 0.45, seg(t, [2.08, 2.72])) * post;
       bu.maxblur.value = P.dof.maxblur * post;
     }
     bloom.strength = P.bloom.strength * post * lerp(0.3, 1, dark) * (1 + flare * 0.6);
@@ -747,6 +765,7 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
   }
 
   // compile every program up front so the first visible frames don't stall
-  render(0); render(3.2); render(5.0); render(0);
-  return { render, backdrop, dispose, onLost: (cb) => { lostCb = cb; }, duration: CONFIG.duration, tier: HIGH ? "high" : "low" };
+  render(0); render(T.camera[1]); render(CONFIG.duration - 0.2); render(0); resampled = false;
+  return { render, backdrop, dispose, onLost: (cb) => { lostCb = cb; }, duration: CONFIG.duration,
+    release: T.overlay[0] - 0.25, docked: T.land[1], tier: HIGH ? "high" : "low" };
 }
