@@ -31,7 +31,7 @@ import { ShaderPass } from "/vendor/three/jsm/postprocessing/ShaderPass.js";
 
 /* ============================== CONFIG ============================== */
 export const CONFIG = {
-  duration: 4.3,                       // seconds; intro.js ends the overlay here
+  duration: 3.6,                       // seconds; intro.js ends the overlay here
   colors: {
     dark: [12, 15, 20],                // the archive at night (sRGB 0-255)
     paper: [234, 237, 241],            // --paper, the page the room lights up to
@@ -52,24 +52,24 @@ export const CONFIG = {
     chemFront: [0.45, 0.6, 1.0],       // the cobalt edge of the colour as it spreads (the page's --duo)
   },
   time: {                              // [start, end] in seconds
-    stripDraw: [0.06, 0.76],
-    riffle: [0.44, 1.76],
-    camera: [0.0, 2.56],               // spline from over the drawer to square on FM-000
-    away: [1.68, 2.48],                // the rest of the drawer drops back into the dark
-    awayPortrait: [1.4, 2.1],          // sooner on a phone, before FM-000 lifts through it
-    lift: [1.64, 2.44],
-    beamOn: [1.8, 2.36],
-    beamOff: [2.96, 3.52],
-    flare: 2.4,                        // the beam locking on
-    streak: [2.34, 2.9],
-    develop: [2.28, 3.08],
-    colour: [2.64, 3.4],
-    room: [2.84, 3.56],                // lights up: dark -> paper
-    post: [2.96, 3.5],                 // post effects ease to zero with the lights; direct render after
-    land: [3.08, 3.92],
-    flat: [3.4, 3.88],                 // FM-000 becomes exactly the page's image
-    overlay: [3.5, 3.95],              // the page comes through while the print is still landing
-    vanish: [3.98, 4.24],
+    stripDraw: [0.05, 0.64],
+    riffle: [0.37, 1.47],
+    camera: [0.0, 2.14],               // spline from over the drawer to square on FM-000
+    away: [1.41, 2.08],                // the rest of the drawer drops back into the dark
+    awayPortrait: [1.17, 1.76],          // sooner on a phone, before FM-000 lifts through it
+    lift: [1.37, 2.04],
+    beamOn: [1.51, 1.98],
+    beamOff: [2.48, 2.95],
+    flare: 2.01,                        // the beam locking on
+    streak: [1.96, 2.43],
+    develop: [1.91, 2.58],
+    colour: [2.21, 2.85],
+    room: [2.38, 2.98],                // lights up: dark -> paper
+    post: [2.48, 2.93],                 // post effects ease to zero with the lights; direct render after
+    land: [2.58, 3.28],
+    flat: [2.85, 3.25],                 // FM-000 becomes exactly the page's image
+    overlay: [2.93, 3.31],              // the page comes through while the print is still landing
+    vanish: [3.33, 3.55],
   },
   post: {
     bloom: { strength: 0.6, radius: 0.5, threshold: 1.0 },
@@ -627,7 +627,7 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
     const bdc = backdrop(t);
     bgCol.setRGB(bdc.rgb[0] / 255, bdc.rgb[1] / 255, bdc.rgb[2] / 255, THREE.SRGBColorSpace);
     scene.fog.color.copy(bgCol);
-    const toF = io(seg(t, [1.56, T.camera[1]]));
+    const toF = io(seg(t, [1.31, T.camera[1]]));
     scene.fog.near = lerp(2.6, 5, toF); scene.fog.far = lerp(7.5, 12, toF);
     scene.environmentIntensity = lerp(0.06, CONFIG.light.env, 1 - dark);
 
@@ -639,7 +639,7 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
     const tipK = portrait ? CONFIG.portraitTip : 1;
 
     /* camera on its spline; the spline's progress follows the riffle, then rises to the print */
-    const u = clamp(0.06 * seg(t, [0, 0.4]) + 0.69 * out3(seg(t, [0.36, 1.76])) + 0.25 * io(seg(t, [1.56, T.camera[1]])));
+    const u = clamp(0.06 * seg(t, [0, 0.33]) + 0.69 * out3(seg(t, [0.3, 1.47])) + 0.25 * io(seg(t, [1.31, T.camera[1]])));
     camPath.getPoint(u, camera.position);
     camera.position.y += Math.sin(t * 1.1) * 0.012 * (1 - toF);
     lookPath.getPoint(u, look);
@@ -650,11 +650,11 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
     const zf = 0.45, zb = zOf(N - 1) - 0.3, zEnd = lerp(zf, zb, draw), sLen = Math.max(0.001, zf - zEnd);
     stripRig.position.set(-(PW / 2 + 0.28), 1.3, zf - sLen / 2);   // runs along the drawer's left edge, clear of the lens path
     tube.scale.set(1, 1, sLen); halo.scale.set(sLen + 0.1, 1, 1);
-    const stripOn = (0.25 + 0.75 * seg(t, [0.1, 0.64])) * (1 - 0.85 * seg(t, [1.32, 1.84])) * dark;
-    tubeMat.opacity = seg(t, [0.04, 0.16]) * dark * (1 - seg(t, [1.32, 1.68]));
+    const stripOn = (0.25 + 0.75 * seg(t, [0.08, 0.54])) * (1 - 0.85 * seg(t, [1.11, 1.54])) * dark;
+    tubeMat.opacity = seg(t, [0.03, 0.13]) * dark * (1 - seg(t, [1.11, 1.41]));
     stripRig.visible = tubeMat.opacity > 0.003; haloMat.uniforms.uA.value = stripOn * CONFIG.light.stripGlow;
     const zc = zOf(cur);
-    strip.intensity = CONFIG.light.strip * stripOn * draw * (1 - smooth(seg(t, [1.52, 1.88])));
+    strip.intensity = CONFIG.light.strip * stripOn * draw * (1 - smooth(seg(t, [1.27, 1.57])));
     strip.position.set(-0.1, 1.42, zc + 0.55);
     strip.target.position.set(0, 0, zc - 0.25);
 
@@ -689,16 +689,16 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
     hero.position.copy(pos);
     hero.scale.setScalar(s);
     // it comes up tilted back, then squares to the lens; a slow float while it develops
-    const fl = Math.sin(t * 1.4) * 0.03 * (1 - land) * seg(t, [2.32, 2.64]);
+    const fl = Math.sin(t * 1.4) * 0.03 * (1 - land) * seg(t, [1.94, 2.21]);
     hero.rotation.set(-0.22 * (1 - out3(lift)) + fl * 0.4, 0.28 * Math.sin(lift * Math.PI) * (1 - land) + fl * 0.3, -0.03 * Math.sin(lift * Math.PI));
     const vanish = 1 - smooth(seg(t, T.vanish));
     heroMat.opacity = sideHero.opacity = inkHero.opacity = heroTabMat.opacity = heroBackMat.opacity = vanish;
     // the tab is unlit ink: dim it with the room, full value once the lights are up
-    heroTabMat.color.setScalar(lerp(lerp(0.3, 0.8, seg(t, [1.92, 2.4])), 1, 1 - dark));
+    heroTabMat.color.setScalar(lerp(lerp(0.3, 0.8, seg(t, [1.61, 2.01])), 1, 1 - dark));
 
     /* the beam: it finds the print, flares as it locks, then the room light takes over */
     const beamOn = smooth(seg(t, T.beamOn)) * (1 - io(seg(t, T.beamOff)));
-    const flare = Math.exp(-Math.pow((t - T.flare) * 5.5, 2));
+    const flare = Math.exp(-Math.pow((t - T.flare) * 6.6, 2));
     proj.position.set(camF.x + 2.4, camF.y + 2.1, camF.z - 0.4);
     proj.target.position.set(hero.position.x, hero.position.y + (PH * s) / 2, hero.position.z);
     proj.intensity = (CONFIG.light.beam + flare * CONFIG.light.flare) * beamOn;
@@ -733,10 +733,10 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
       return;
     }
     if (bokeh) {
-      focusPt.set(0, 0.5, zOf(Math.min(HERO, Math.ceil(cur - 0.05))) + 0.02).lerp(tmp.set(hero.position.x, hero.position.y + (PH * s) / 2, hero.position.z), smooth(seg(t, [1.52, 2.16])));
+      focusPt.set(0, 0.5, zOf(Math.min(HERO, Math.ceil(cur - 0.05))) + 0.02).lerp(tmp.set(hero.position.x, hero.position.y + (PH * s) / 2, hero.position.z), smooth(seg(t, [1.27, 1.81])));
       const bu = bokeh.uniforms;
       bu.focus.value = camera.position.distanceTo(focusPt);
-      bu.aperture.value = P.dof.aperture * lerp(1, 0.45, seg(t, [2.08, 2.72])) * post;
+      bu.aperture.value = P.dof.aperture * lerp(1, 0.45, seg(t, [1.74, 2.28])) * post;
       bu.maxblur.value = P.dof.maxblur * post;
     }
     bloom.strength = P.bloom.strength * post * lerp(0.3, 1, dark) * (1 + flare * 0.6);
@@ -763,5 +763,5 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
   // compile every program up front so the first visible frames don't stall
   render(0); render(T.camera[1]); render(CONFIG.duration - 0.2); render(0); resampled = false;
   return { render, backdrop, dispose, onLost: (cb) => { lostCb = cb; }, duration: CONFIG.duration,
-    release: T.overlay[0] - 0.25, docked: T.land[1], tier: HIGH ? "high" : "low" };
+    release: T.overlay[0] - 0.21, docked: T.land[1], tier: HIGH ? "high" : "low" };
 }

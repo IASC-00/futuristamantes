@@ -16,7 +16,7 @@
   var RT = /[?&]introtest=(rt|2d)(&|$)/.test(Q);
   var GUARD = !/[?&]introguard=0/.test(Q) && !TEST;
   var FORCE2D = /[?&](intro2d=1|introtest=2d)(&|$)/.test(Q);
-  var DUR3D = 4.3, REL3D = 3.25, DOCK3D = 3.92, DUR2D = 4.1, LOAD_LIMIT = 2600, FAILSAFE = 7500;   // 3D values come from intro3d.js
+  var DUR3D = 3.6, REL3D = 2.72, DOCK3D = 3.28, DUR2D = 3.43, LOAD_LIMIT = 2600, FAILSAFE = 6300;   // 3D values come from intro3d.js
 
   function store(f) { try { return f(); } catch (e) { return null; } }
   function shouldRun() {
@@ -247,12 +247,12 @@
   function apply2D(t) {
     var vw = w.innerWidth, vh = w.innerHeight, portrait = vw / vh < 0.8;
     var pw = portrait ? vw * 0.62 : Math.min(vw * 0.3, 420), ph = pw * 0.75;
-    var cur = HERO2D * out3((t - 0.35) / 1.3);           // riffle down the drawer
-    var lift = out3((t - 1.55) / 0.75);                  // FM-000 comes up out of it
-    var dev = ease((t - 2.0) / 0.75);                    // develops: shadows first
-    var col = ease((t - 2.35) / 0.7);                    // then colour
-    var lit = ease((t - 2.65) / 0.7);                    // the room lights come up
-    var land = ease((t - 2.95) / 0.75);                  // and it lands on the page
+    var cur = HERO2D * out3((t - 0.29) / 1.09);           // riffle down the drawer
+    var lift = out3((t - 1.3) / 0.63);                  // FM-000 comes up out of it
+    var dev = ease((t - 1.67) / 0.63);                    // develops: shadows first
+    var col = ease((t - 1.97) / 0.59);                    // then colour
+    var lit = ease((t - 2.22) / 0.59);                    // the room lights come up
+    var land = ease((t - 2.47) / 0.63);                  // and it lands on the page
     var tg = heroTarget();
     var stageW = portrait ? vw * 0.84 : Math.min(vw * 0.5, 700), stageS = stageW / pw;
     cards2d.forEach(function (el, i) {
@@ -261,7 +261,7 @@
       var depth = i - cur, hero = i === HERO2D;
       var tip = i < HERO2D ? cl(cur - i + 0.15) : 0;
       var ty = depth * -ph * 0.11 + ph * 0.2, sc = Math.pow(0.93, Math.max(-1, depth));
-      var rx = tip * 78, tx = 0, op = Math.min(1, t / 0.4) * (1 - lift * (hero ? 0 : 1));
+      var rx = tip * 78, tx = 0, op = Math.min(1, t / 0.33) * (1 - lift * (hero ? 0 : 1));
       if (hero) {
         ty = lerp2(ty, -ph * 0.05, lift) - Math.sin(Math.min(1, lift) * Math.PI) * ph * 0.12;
         sc = lerp2(sc, stageS, lift);
@@ -270,7 +270,7 @@
           ty = lerp2(ty, tg.y + tg.h / 2 - vh / 2, land);
           sc = lerp2(sc, tg.w / pw, land);
         }
-        op = Math.min(1, t / 0.4) * (1 - ease((t - 3.75) / 0.3));
+        op = Math.min(1, t / 0.33) * (1 - ease((t - 3.14) / 0.25));
       }
       el.style.opacity = op.toFixed(3);
       el.style.transform = "translate(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px) scale(" + sc.toFixed(4) +
@@ -283,13 +283,13 @@
       "grayscale(" + (1 - col) + ") contrast(" + (1 + 0.32 * (1 - col)) + ") sepia(" + (0.6 * (1 - col)) +
       ") hue-rotate(" + (186 * (1 - col)) + "deg) saturate(" + (1 + (1 - col)) + ")";
     if (paper2d) paper2d.style.opacity = (1 - dev).toFixed(3);
-    line2d.style.transform = "scaleX(" + out3(t / 0.8).toFixed(3) + ")";
-    line2d.style.opacity = (Math.min(1, t / 0.15) * (1 - cl((t - 1.4) / 0.6))).toFixed(3);
-    beam2d.style.opacity = (cl((t - 1.7) / 0.4) * (1 - lit)).toFixed(3);
-    var a = 1 - ease((t - 3.3) / 0.45);                  // the page comes through as it docks
+    line2d.style.transform = "scaleX(" + out3(t / 0.67).toFixed(3) + ")";
+    line2d.style.opacity = (Math.min(1, t / 0.13) * (1 - cl((t - 1.17) / 0.5))).toFixed(3);
+    beam2d.style.opacity = (cl((t - 1.42) / 0.33) * (1 - lit)).toFixed(3);
+    var a = 1 - ease((t - 2.76) / 0.38);                  // the page comes through as it docks
     room(mix(DARK, PAPER, lit), a, 1 - lit);
-    if (t >= 3.05) release();
-    dock(t >= 3.7);
+    if (t >= 2.55) release();
+    dock(t >= 3.1);
   }
   function lerp2(a, b, k) { return a + (b - a) * k; }
 
