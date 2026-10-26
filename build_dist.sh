@@ -41,10 +41,5 @@ cp images/hero.webp images/og.jpg dist/images/
 cp images/c-*.webp dist/images/
 cp images/p-*.webp dist/images/
 
-# How-we-work page + its test clip
-mkdir -p dist/process dist/media
-cp process/index.html dist/process/
-cp media/notld-color-test.mp4 media/notld-color-test.jpg dist/media/
-
 echo "dist/ built ($(find dist -type f | wc -l) files):"
 find dist -type f | sort
