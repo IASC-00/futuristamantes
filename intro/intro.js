@@ -250,7 +250,7 @@
     var cur = HERO2D * out3((t - 0.29) / 1.09);           // riffle down the drawer
     var lift = out3((t - 1.3) / 0.63);                  // FM-000 comes up out of it
     var dev = ease((t - 1.67) / 0.63);                    // develops: shadows first
-    var col = ease((t - 1.97) / 0.59);                    // then colour
+    var col = ease((t - 1.97) / 0.59);                    // then color
     var lit = ease((t - 2.22) / 0.59);                    // the room lights come up
     var land = ease((t - 2.47) / 0.63);                  // and it lands on the page
     var tg = heroTarget();

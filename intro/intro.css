@@ -11,7 +11,7 @@ html.fi-intro-on:not(.fi-mounted) body::before {
 /* hold the thesis underline so it draws as the intro lifts, not under it */
 html.fi-intro-hold .thesis .u::after { transform: scaleX(0) !important; }
 /* the page's hero stays hidden while the plate is in flight (no double image as the page comes
-   through), then sits in full colour exactly under the docked plate, so the handoff has no seam */
+   through), then sits in full color exactly under the docked plate, so the handoff has no seam */
 html.fi-intro-on:not(.fi-docked) .plate-hero .frame { visibility: hidden; }
 html.fi-intro-on .plate-hero img { transition: none; filter: var(--duo-off); }
 

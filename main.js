@@ -1,7 +1,7 @@
 /* ============================================================
    FUTURISTAMANTES — main.js
-   Catalogue of Futures: data-driven two-track catalogue,
-   filter, duotone→colour lightbox, develop-on-load, reveals.
+   Catalog of Futures: data-driven two-track catalog,
+   filter, duotone→color lightbox, develop-on-load, reveals.
    ============================================================ */
 (function () {
   "use strict";
@@ -13,7 +13,7 @@
     });
   }
 
-  /* ---------- DEVELOP ON LOAD (hero duotone → colour + underline) ---------- */
+  /* ---------- DEVELOP ON LOAD (hero duotone → color + underline) ---------- */
   requestAnimationFrame(function () {
     requestAnimationFrame(function () { document.body.classList.add("loaded"); });
   });
@@ -33,7 +33,7 @@
     items.forEach(function (n) { io.observe(n); });
   })();
 
-  /* ---------- CATALOGUE (data-driven, two tracks) ---------- */
+  /* ---------- CATALOG (data-driven, two tracks) ---------- */
   function cardEl(it) {
     var b = document.createElement("button");
     b.type = "button";
@@ -109,9 +109,9 @@
   fetch("/work.json")
     .then(function (r) { return r.json(); })
     .then(build)
-    .catch(function () {/* leave catalogue empty if data missing */ });
+    .catch(function () {/* leave catalog empty if data missing */ });
 
-  /* ---------- LIGHTBOX (full colour) ---------- */
+  /* ---------- LIGHTBOX (full color) ---------- */
   var lb = document.getElementById("lightbox");
   var lbStage = document.getElementById("lbStage");
   var lbCap = document.getElementById("lbCap");

@@ -1,14 +1,14 @@
 /* Futuristamantes homepage intro, 3D scene (Three.js r169 + its jsm post-processing, self-hosted).
 
    The archive, after hours.
-     1. A strip light draws on over a drawer of catalogue plates (dark room, cool light, dust).
+     1. A strip light draws on over a drawer of catalog plates (dark room, cool light, dust).
      2. The camera rides a spline down the drawer while the plates riffle forward like cards in a
         file; focus racks plate to plate and the riffle decelerates onto FM-000, a blank sheet.
      3. FM-000 lifts out with weight into a projector beam. The beam locks with a flare and a light
         streak runs across the paper.
      4. It develops like a print in the tray: silver grains pop up in the densest shadows first,
-        in uneven chemical patches, fuse into continuous tone, then colour blooms outward from the
-        hot centre of the beam.
+        in uneven chemical patches, fuse into continuous tone, then color blooms outward from the
+        hot center of the beam.
      5. The room lights come up to the page's paper, every effect eases to zero, and the print
         lands pixel for pixel on the page's hero plate; the overlay lets the page through.
 
@@ -19,7 +19,7 @@
    runs bloom at half resolution. From CONFIG.time.post[1] the post chain is neutral and the
    scene renders straight to a transparent canvas, so the handoff frame is the page's own pixels.
 
-   Driven by intro.js through render(seconds) and backdrop(seconds). Every colour and timing a
+   Driven by intro.js through render(seconds) and backdrop(seconds). Every color and timing a
    designer might want to touch is in CONFIG below. */
 import * as THREE from "/vendor/three/three.module.min.js";
 import { RoomEnvironment } from "/vendor/three/RoomEnvironment.js";
@@ -41,7 +41,7 @@ export const CONFIG = {
     edge: 0xeef0f3,                    // plate edges (board core)
     stamp: "#2233E6",                  // --accent, the ARCHIVED stamp on the backs
     tray: 0x1b1f27,
-    photoPaper: [0.88, 0.89, 0.91],    // blank photo paper, linear (cool fibre base)
+    photoPaper: [0.88, 0.89, 0.91],    // blank photo paper, linear (cool fiber base)
     latent: 0.1,                       // the faint rebate rule on the blank sheet, before it develops
     stripLight: 0xeaf0ff,
     stripGlow: [0.82, 0.9, 1.0],
@@ -49,7 +49,7 @@ export const CONFIG = {
     beamGlow: [0.9, 0.94, 1.0],
     dust: [0.92, 0.95, 1.0],
     streak: [0.94, 0.97, 1.0],
-    chemFront: [0.45, 0.6, 1.0],       // the cobalt edge of the colour as it spreads (the page's --duo)
+    chemFront: [0.45, 0.6, 1.0],       // the cobalt edge of the color as it spreads (the page's --duo)
   },
   time: {                              // [start, end] in seconds
     stripDraw: [0.05, 0.64],
@@ -90,8 +90,8 @@ const FRONT = [   // the drawer, front to back; FM-000 sits ninth
 const HERO_SRC = "/images/hero.webp", HERO_LABEL = "FM-000 · Establishing";
 const HERO = FRONT.length, BEHIND = 5, N = HERO + 1 + BEHIND;
 const PW = 4 / 3, PH = 1, THICK = 0.03, SP = 0.17;   // plate size (world), board, spacing
-const STAGE_Y = 1.32;                                 // FM-000's centre height once lifted
-// The page's CSS duotone (--duo), sampled on a 256-step grey ramp, so the plates match it.
+const STAGE_Y = 1.32;                                 // FM-000's center height once lifted
+// The page's CSS duotone (--duo), sampled on a 256-step gray ramp, so the plates match it.
 const RAMP = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQICAwMEBAQGBQYIBgcJCAkLCQoNCgsPCw0RDQ4TDhAUDxEWEBIYEhQaExUcFBceFRgfFhkhGBsjGRwlGh4nGx8pHSAqHiIsHyMuICUwIiYyIyc0JCk1JSo3Jyw5KC07KS49KjA/LDFALTNCLjRELzVGMTdIMjhKMzpLNDtNNj1PNz5ROD9TOUFVO0JWPERYPUVaPkZcQEheQUlgQkthQ0xjRU1lRk9nR1BpSFJrSVNsS1RuTFZwTVdyTll0UFp2UVt3Ul15U157VWB9VmF/V2KBWGSCWmWEW2eGXGiIXWmKX2uMYGyNYW6PYm+RZHCTZXKVZnOXZ3WYaXaaanica3mebHqgbnyib32jcH+lcYCnc4GpdIOrdYStdoaueIeweYiyeoq0e4u2fI24fo65f4+7gJG9gZK/g5TBhJXDhZbEhpjGiJnIiZvKipzMi53OjZ/PjqDRj6LTkKPVkqTXk6bZlKfalancl6remKvgma3imq7knLDlnbHnnrLpn7TrobXtorfvo7jwpLryprv0p7z2qL74qb/6qsH7rML9rcP/rsX/r8b/scj/ssn/s8r/tMz/ts3/t8//uND/udH/u9P/vNT/vdb/vtf/wNj/wdr/wtv/w93/xd7/xuD/x+H/yeP/yuT/y+b/zef/zun/0Or/0ez/0u3/1O//1vD/2fH/3PH/3/L/4/L/5vP/6fP/7PT/8PT/8/X/9vb/+vb//ff///f///j///j///j///j///n///n///n///n///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r///r/";
 
 /* ============================== easing ============================== */
@@ -128,7 +128,7 @@ function grainCanvas(size) {
     d[i * 4] = d[i * 4 + 1] = d[i * 4 + 2] = v; d[i * 4 + 3] = 255;
   }
   g.putImageData(img, 0, 0);
-  g.globalAlpha = 0.07; g.lineWidth = 1;           // paper fibres
+  g.globalAlpha = 0.07; g.lineWidth = 1;           // paper fibers
   for (let i = 0; i < 260; i++) {
     const x = rnd() * size, y = rnd() * size, a = rnd() * Math.PI, l = 6 + rnd() * 22;
     g.strokeStyle = rnd() < 0.5 ? "#000" : "#fff";
@@ -163,7 +163,7 @@ function drawBack(g, label, grain, i, x0, y0, w, h) {
   g.globalAlpha = 1; g.globalCompositeOperation = "source-over";
   g.fillStyle = C.ink;
   g.font = "600 22px Archivo, system-ui, sans-serif"; g.fillText("FUTURISTAMANTES", 44, 70);
-  g.font = "italic 400 34px Newsreader, Georgia, serif"; g.fillText("Catalogue of Futures", 44, 118);
+  g.font = "italic 400 34px Newsreader, Georgia, serif"; g.fillText("Catalog of Futures", 44, 118);
   g.fillRect(44, 142, 552, 2);
   g.font = "600 20px Archivo, system-ui, sans-serif"; g.fillText("PLATE  " + label.toUpperCase(), 44, 186);
   g.globalAlpha = 0.55; g.font = "400 19px Archivo, system-ui, sans-serif";
@@ -378,7 +378,7 @@ export async function create(host, opts) {
   const otherPhotoMat = keep(tiled(new THREE.MeshPhysicalMaterial({
     map: photoAtlas, roughness: 0.5, clearcoat: 0.3, clearcoatRoughness: 0.3, bumpMap: grain, bumpScale: 0.6, transparent: true,
   }), [
-    // the catalogue is held in the page's duotone
+    // the catalog is held in the page's duotone
     "vec3 lin = texture2D( map, vTile ).rgb;",
     "float ls = pow( clamp( dot( lin, vec3( 0.2126, 0.7152, 0.0722 ) ), 0.0, 1.0 ), 1.0 / 2.2 );",
     "float gr = texture2D( uGrain, vPlain * vec2( 3.0, 2.25 ) ).r;",
@@ -428,7 +428,7 @@ export async function create(host, opts) {
   // grain lives inside the developing tone and fuses away as it reaches full density
   float m = appear * mix( 0.45 + 0.75 * g1, 1.0, smoothstep( 0.45, 0.9, uDev ) );
   vec3 mono = mix( paper, duo * ( 0.96 + 0.05 * gr ), m );
-  // colour returns from the hot centre of the beam, along a ragged chemical front
+  // color returns from the hot center of the beam, along a ragged chemical front
   float r = length( ( vPlain - vec2( 0.52, 0.55 ) ) * vec2( 1.333, 1.0 ) ) / 0.86;
   r += ( fiFbm( vPlain * 4.0 + 3.1 ) - 0.5 ) * 0.28;
   float reach = uCol * 1.45;
@@ -712,7 +712,7 @@ void main(){ float f = abs(dot(normalize(vN), normalize(vV)));
     dustMat.uniforms.uA.value = beamOn * 0.9 + 0.3 * stripOn * (1 - toF);
     dustMat.uniforms.uT.value = t;
 
-    /* develop, then colour; the streak runs across it as the beam locks */
+    /* develop, then color; the streak runs across it as the beam locks */
     U.uDev.value = smooth(seg(t, T.develop));
     U.uCol.value = io(seg(t, T.colour));
     U.uStreak.value = lerp(-0.6, 1.9, out3(seg(t, T.streak)));

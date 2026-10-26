@@ -1,8 +1,8 @@
 /* ============================================================
-   FUTURISTAMANTES — Catalogue of Futures
+   FUTURISTAMANTES — Catalog of Futures
    Cool editorial / archival skin. No camera HUD, no grain.
    Signature: works are held in blue-ink monochrome and
-   "develop" into full colour on hover / in the lightbox.
+   "develop" into full color on hover / in the lightbox.
    ============================================================ */
 
 /* ── fonts (self-hosted) ── */
@@ -22,7 +22,7 @@
   --sans:"Archivo",system-ui,sans-serif;
   --maxw:1320px; --pad:clamp(1.25rem,5vw,5.5rem);
   --ease:cubic-bezier(.22,.61,.36,1);
-  /* the duotone hold — deeper blue-ink plate; animatable to identity for smooth develop-to-colour */
+  /* the duotone hold — deeper blue-ink plate; animatable to identity for smooth develop-to-color */
   --duo:grayscale(1) contrast(1.32) brightness(.94) sepia(.6) hue-rotate(186deg) saturate(2);
   --duo-off:grayscale(0) contrast(1) brightness(1) sepia(0) hue-rotate(0deg) saturate(1);
 }
@@ -123,7 +123,7 @@ em{font-style:italic}
   max-width:22ch}
 .manifesto em{color:var(--accent)}
 
-/* ── catalogue ── */
+/* ── catalog ── */
 .cat-head{display:flex;justify-content:space-between;align-items:flex-end;
   flex-wrap:wrap;gap:1.2rem}
 .cat-head .right{font-family:var(--disp);font-style:italic;font-size:1.05rem;
