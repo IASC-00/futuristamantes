@@ -15,8 +15,9 @@ rm -rf dist
 mkdir -p dist/fonts dist/images dist/vendor
 
 # Top-level public files
+# googleab408ff4e8b64c9e.html = Search Console verification (iswain.dev@gmail.com, 20 Nov 2026); keep it.
 for f in index.html style.css main.js work.json favicon.svg \
-         robots.txt sitemap.xml site.webmanifest _headers; do
+         robots.txt sitemap.xml site.webmanifest _headers googleab408ff4e8b64c9e.html; do
   cp "$f" dist/
 done
 
